@@ -1,0 +1,116 @@
+.fgrid {
+    
+    display: grid;
+    grid-template-columns: 50% 50%;
+    background-color: aquamarine;
+}
+
+.bgrid {
+    
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-auto-rows: 50px;
+    gap: 1em;
+    background: #ecf0f1;
+    margin: 5px;
+}
+
+.bgrid div:hover {
+
+    background-color: rgb(170, 224, 255);
+}
+
+
+
+
+
+
+
+
+
+.element1 {
+
+    grid-row: 1/8;
+}
+
+.element2 {
+
+    grid-row: 1/7;
+}
+
+.elementA {
+
+    grid-row: 1/5;
+}
+
+.elementB {
+
+    grid-row: 1/8;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (min-width: 1901px){
+    .cgrid {
+        grid-template-columns: repeat(8, 1fr);
+    }
+}
+
+@media (min-width: 1401px) and (max-width: 1900px){
+    .cgrid {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}
+
+@media (min-width: 1251px) and (max-width: 1400px) {
+    .cgrid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (min-width: 1000px) and (max-width: 1250px) {
+    .cgrid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 755px) and (max-width: 999px) {
+    .cgrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 400px) and (max-width: 755px) {
+    .cgrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

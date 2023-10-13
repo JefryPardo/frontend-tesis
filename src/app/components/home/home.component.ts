@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  numberOfCards: number = 6;
+
+  getCardRange(): number[] {
+    return new Array(this.numberOfCards);
+  }
 }
