@@ -26,6 +26,7 @@ import { RegisterComponent } from './components/auth/register/register.component
 import { CotizacionesComponent } from './components/cotizaciones/cotizaciones.component';
 import { ConfiguracionesComponent } from './components/configuraciones/configuraciones.component';
 import { InicioComponent } from './components/inicio/inicio.component';
+import { CardComponent } from './components/card/card.component';
 
 
 
@@ -39,7 +40,8 @@ import { InicioComponent } from './components/inicio/inicio.component';
     RegisterComponent,
     CotizacionesComponent,
     ConfiguracionesComponent,
-    InicioComponent
+    InicioComponent,
+    CardComponent
 
   ],
   imports: [
