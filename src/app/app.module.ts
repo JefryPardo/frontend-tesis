@@ -27,6 +27,7 @@ import { CotizacionesComponent } from './components/cotizaciones/cotizaciones.co
 import { ConfiguracionesComponent } from './components/configuraciones/configuraciones.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { CardComponent } from './components/card/card.component';
+import { NumberFormatPipe } from './components/pipe/card.pipe';
 
 
 
@@ -41,7 +42,8 @@ import { CardComponent } from './components/card/card.component';
     CotizacionesComponent,
     ConfiguracionesComponent,
     InicioComponent,
-    CardComponent
+    CardComponent,
+    NumberFormatPipe
 
   ],
   imports: [

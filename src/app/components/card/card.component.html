@@ -1,0 +1,46 @@
+
+<div class="search">
+
+    <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText />
+    </span>
+</div>
+
+
+<div class="bgrid">
+
+    <div class="columna">
+
+        <div class="banner">
+            <img src="../../../assets/banner.png"/>
+        </div>
+
+        <div *ngFor="let producto of productosImpares;">
+
+            <div class="card">
+                <img [src]="producto.url_imagen"/>
+                <h4 *ngIf="validarPrecio(producto)"><div><span>COP</span>{{valorEntero(producto.precio) | numberFormat}}<span>.{{valorDecimal(producto.precio)}}</span></div></h4>
+                <h4 *ngIf="!validarPrecio(producto)"><span>COP</span>{{valorEntero(producto.precio) | numberFormat}}<span>.{{valorDecimal(producto.precio)}}</span></h4>
+                <h5 *ngIf="validarPrecio(producto)" class="title"><span>COP</span>{{valorEntero(producto.precio_anterior) | numberFormat}}<span>.{{valorDecimal(producto.precio_anterior)}}</span></h5>
+                <h6>unidades: {{evaluarUnidades(producto.unidades)}}</h6>
+                <p class="truncate-text">{{producto.nombre}}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="columna">
+
+        <div *ngFor="let producto of productosPares;">
+
+            <div class="card">
+                <img [src]="producto.url_imagen"/>
+                <h4 *ngIf="validarPrecio(producto)" ><div><span>COP</span>{{valorEntero(producto.precio) | numberFormat}}<span>.{{valorDecimal(producto.precio)}}</span></div></h4>
+                <h4 *ngIf="!validarPrecio(producto)" ><span>COP</span>{{valorEntero(producto.precio) | numberFormat}}<span>.{{valorDecimal(producto.precio)}}</span></h4>
+                <h5 *ngIf="validarPrecio(producto)" class="title"><span>COP</span>{{valorEntero(producto.precio_anterior) | numberFormat}}<span>.{{valorDecimal(producto.precio_anterior)}}</span></h5>
+                <h6>unidades: {{evaluarUnidades(producto.unidades)}}</h6>
+                <p class="truncate-text">{{producto.nombre}}</p>
+            </div>
+        </div>
+    </div>
+</div>
