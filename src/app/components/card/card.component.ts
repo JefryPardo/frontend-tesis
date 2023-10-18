@@ -8,6 +8,7 @@ import { ProductoModel } from 'src/app/models/model/producto.model';
 })
 export class CardComponent {
 
+  @Input() banner: boolean = false;
   @Input() productosPares: ProductoModel[];
   @Input() productosImpares: ProductoModel[];
 

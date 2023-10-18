@@ -31,6 +31,9 @@ import { NumberFormatPipe } from './components/pipe/card.pipe';
 import { BannerComponent } from './components/banner/banner.component';
 import { SearchComponent } from './components/search/search.component';
 import { NavbarMovilComponent } from './components/navbar-movil/navbar-movil.component';
+import { ProductoComponent } from './components/producto/producto.component';
+import { InputPrecioNormalComponent } from './components/utils/input-precio-normal/input-precio-normal.component';
+import { InputPrecioOfertaComponent } from './components/utils/input-precio-oferta/input-precio-oferta.component';
 
 
 
@@ -49,7 +52,10 @@ import { NavbarMovilComponent } from './components/navbar-movil/navbar-movil.com
     NumberFormatPipe,
     BannerComponent,
     SearchComponent,
-    NavbarMovilComponent
+    NavbarMovilComponent,
+    ProductoComponent,
+    InputPrecioNormalComponent,
+    InputPrecioOfertaComponent
 
   ],
   imports: [

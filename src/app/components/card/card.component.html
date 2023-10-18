@@ -1,9 +1,9 @@
 <div class="bgrid">
-
+    
     <div class="columna">
 
-        <div class="banner">
-            <img src="../../../assets/banner.png"/>
+        <div *ngIf="banner" class="banner">
+            <img src="../../../assets/banner-oscuro.jpeg"/>
         </div>
 
         <div *ngFor="let producto of productosImpares;">
