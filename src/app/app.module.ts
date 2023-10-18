@@ -28,6 +28,9 @@ import { ConfiguracionesComponent } from './components/configuraciones/configura
 import { InicioComponent } from './components/inicio/inicio.component';
 import { CardComponent } from './components/card/card.component';
 import { NumberFormatPipe } from './components/pipe/card.pipe';
+import { BannerComponent } from './components/banner/banner.component';
+import { SearchComponent } from './components/search/search.component';
+import { NavbarMovilComponent } from './components/navbar-movil/navbar-movil.component';
 
 
 
@@ -43,7 +46,10 @@ import { NumberFormatPipe } from './components/pipe/card.pipe';
     ConfiguracionesComponent,
     InicioComponent,
     CardComponent,
-    NumberFormatPipe
+    NumberFormatPipe,
+    BannerComponent,
+    SearchComponent,
+    NavbarMovilComponent
 
   ],
   imports: [

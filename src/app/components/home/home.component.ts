@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener } from '@angular/core';
 import { ProductoModel } from 'src/app/models/model/producto.model';
 
 @Component({
@@ -12,12 +12,33 @@ export class HomeComponent {
   productosPares: ProductoModel[];
   productosImpares: ProductoModel[];
 
-  constructor() {
+  isSearchFixed = false;
+
+  constructor(private el: ElementRef) {
     
     this.productos = this.getListProducto();
 
     this.productosPares   = this.productos.filter((_, index) => index % 2 === 0);
     this.productosImpares = this.productos.filter((_, index) => index % 2 !== 0);
+  }
+
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+    const searchElement = this.el.nativeElement.querySelector('#search');
+    const spacerElement = this.el.nativeElement.querySelector('.spacer');
+    const bannerHeight = this.el.nativeElement.querySelector('app-banner').offsetHeight;
+    const scrollPosition = window.pageYOffset;
+    const spacerHeight = spacerElement.clientHeight;
+
+    if (scrollPosition >= bannerHeight) {
+      searchElement.classList.add('fixed-search');
+      spacerElement.style.height = searchElement.clientHeight + 'px';
+      this.isSearchFixed = true;
+    } else {
+      searchElement.classList.remove('fixed-search');
+      spacerElement.style.height = '0';
+      this.isSearchFixed = false;
+    }
   }
 
   buildProducto(
@@ -146,6 +167,11 @@ export class HomeComponent {
     );
 
     let data: ProductoModel[] = [];
+    data.push(producto1);
+    data.push(producto2);
+    data.push(producto3);
+    data.push(producto4);
+    data.push(producto5);
     data.push(producto1);
     data.push(producto2);
     data.push(producto3);
