@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { ProductoModel } from 'src/app/models/model/producto.model';
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  selector: 'app-carta',
+  templateUrl: './carta.component.html',
+  styleUrls: ['./carta.component.scss']
 })
-export class CardComponent {
+export class CartaComponent {
 
   @Input() banner: boolean = false;
   @Input() productosPares: ProductoModel[];

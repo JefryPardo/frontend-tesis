@@ -1,9 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/publico/components/home/home.component';
-import { LoginComponent } from './components/publico/components/auth/login/login.component';
-import { RegisterComponent } from './components/publico/components/auth/register/register.component';
-import { ProductoComponent } from './components/utils/producto/producto.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -19,7 +15,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class PublicoRoutingModule { }
