@@ -8,9 +8,7 @@ import { ProductoModel } from 'src/app/models/model/producto.model';
 })
 export class CartaComponent {
 
-  @Input() banner: boolean = false;
-  @Input() productosPares: ProductoModel[];
-  @Input() productosImpares: ProductoModel[];
+  @Input() producto: ProductoModel;
 
   constructor() {}
 

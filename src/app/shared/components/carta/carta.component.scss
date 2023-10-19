@@ -1,9 +1,3 @@
-.bgrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); // Dos columnas de igual ancho
-    margin: 5px;
-}
-
 .card {
     width: 100%;
     text-align: center;
@@ -30,56 +24,10 @@
     max-height: 200px;
 }
 
-.banner img {
-    border-radius: 10px;
-    width: 100%;
-    max-height: 1000px;
-}
-
-.banner {
-
-    width: 100%;
-    padding: 5px;
-    padding-bottom: 10px;
-}
-
-
-.card h5 {
-    margin: 4px 0;
-    color: rgb(171, 171, 171);
-}
-
-.card h5 span {
-    font-weight: 700;
-    font-size: 12px;
-    margin-right: 3px;
-}
-
 .card h6 {
     margin: 4px 0;
     color: rgb(171, 171, 171);
 }
-
-.card h4 {
-    font-weight: 600;
-    margin: 4px 0;
-    font-size: 20px;
-}
-
-.card h4 div {
-    color: rgb(234, 34, 34);
-    font-weight: 600;
-    margin: 4px 0;
-    font-size: 20px;
-}
-
-.card h4 span {
-    font-weight: 700;
-    font-size: 12px;
-    margin-right: 3px;
-}
-
-
 
 .card p {
     font-size: 16px;

@@ -17,6 +17,7 @@ import { NavbarMovilComponent } from './components/navbar-movil/navbar-movil.com
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { NavbarMovilPublicoComponent } from './components/navbar-movil-publico/navbar-movil-publico.component';
+import { CartaGridComponent } from './components/carta-grid/carta-grid.component';
 
 @NgModule({
   
@@ -33,6 +34,7 @@ import { NavbarMovilPublicoComponent } from './components/navbar-movil-publico/n
     NavbarMovilPublicoComponent,
     ProductoComponent,
     SearchComponent,
+    CartaGridComponent
   ],
 
   exports: [

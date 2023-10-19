@@ -1,36 +1,7 @@
-<div class="bgrid">
-    
-    <div class="columna">
-
-        <div *ngIf="banner" class="banner">
-            <img src="https://raw.githubusercontent.com/JefryPardo/tesis-img/master/banner-oscuro.jpeg"/>
-        </div>
-
-        <div *ngFor="let producto of productosImpares;">
-
-            <div class="card">
-                <img [src]="producto.url_imagen"/>
-                <h4 *ngIf="validarPrecio(producto)"><div><span>COP</span>{{valorEntero(producto.precio) | numberFormat}}<span>.{{valorDecimal(producto.precio)}}</span></div></h4>
-                <h4 *ngIf="!validarPrecio(producto)"><span>COP</span>{{valorEntero(producto.precio) | numberFormat}}<span>.{{valorDecimal(producto.precio)}}</span></h4>
-                <h5 *ngIf="validarPrecio(producto)" class="title"><span>COP</span>{{valorEntero(producto.precio_anterior) | numberFormat}}<span>.{{valorDecimal(producto.precio_anterior)}}</span></h5>
-                <h6>unidades: {{evaluarUnidades(producto.unidades)}}</h6>
-                <p class="truncate-text">{{producto.nombre}}</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="columna">
-
-        <div *ngFor="let producto of productosPares;">
-
-            <div class="card">
-                <img [src]="producto.url_imagen"/>
-                <h4 *ngIf="validarPrecio(producto)" ><div><span>COP</span>{{valorEntero(producto.precio) | numberFormat}}<span>.{{valorDecimal(producto.precio)}}</span></div></h4>
-                <h4 *ngIf="!validarPrecio(producto)" ><span>COP</span>{{valorEntero(producto.precio) | numberFormat}}<span>.{{valorDecimal(producto.precio)}}</span></h4>
-                <h5 *ngIf="validarPrecio(producto)" class="title"><span>COP</span>{{valorEntero(producto.precio_anterior) | numberFormat}}<span>.{{valorDecimal(producto.precio_anterior)}}</span></h5>
-                <h6>unidades: {{evaluarUnidades(producto.unidades)}}</h6>
-                <p class="truncate-text">{{producto.nombre}}</p>
-            </div>
-        </div>
-    </div>
+<div class="card">
+    <img [src]="producto.url_imagen"/>
+    <app-input-precio-normal></app-input-precio-normal>
+    <app-input-precio-oferta></app-input-precio-oferta>
+    <h6>unidades: {{evaluarUnidades(producto.unidades)}}</h6>
+    <p class="truncate-text">{{producto.nombre}}</p>
 </div>
