@@ -8,6 +8,8 @@ import { PerfilComponent } from './components/perfil/perfil.component';
 import { PrincipalComponent } from './principal.component';
 import { PrincipalRoutingModule } from './principal-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { OrderListModule } from 'primeng/orderlist';
+import { CotizacionesService } from '../service/cotizaciones.service';
 
 @NgModule({
   declarations: [
@@ -22,8 +24,12 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     SharedModule,
-    PrincipalRoutingModule
-  ]
+    PrincipalRoutingModule,
+
+    OrderListModule
+  ],
+
+  providers: [CotizacionesService]
   
 })
 export class PrincipalModule { }

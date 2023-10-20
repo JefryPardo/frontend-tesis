@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CotizacionesService } from 'src/app/service/cotizaciones.service';
 
 @Component({
   selector: 'app-cotizaciones',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class CotizacionesComponent {
 
+  constructor(public cotizacionesServices: CotizacionesService) {}
 }

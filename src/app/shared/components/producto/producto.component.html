@@ -1,10 +1,6 @@
 <div class="bgrid mb-8">
     
-    <div class="carrusel">
-        <div class="elemento" *ngFor="let image of images">
-            <img [src]="image.src" [alt]="image.alt">
-        </div>
-    </div>
+    <app-carrusel [imagenes]="imagenes"></app-carrusel>
 
     <div class="contenedor">
         <div class="grid grid-nogutter mt-3 px-4">
@@ -25,19 +21,18 @@
                         
                         <i *ngIf="favorito" class="pi pi-heart"></i>
                         <i *ngIf="!favorito" class="pi pi-heart-fill"></i>
-            
                     </button>
                 </div>
             </div>
 
             <div class="col-12 ">
                 
-                <div class="titulo">Titulo</div>
+                <div class="titulo">{{producto.nombre}}</div>
             </div>
 
             <div class="col-12">
                 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis quia quam consequatur? Possimus corrupti ullam tenetur laboriosam reprehenderit eaque fuga dolores molestias sapiente quia, totam ex facilis, sequi provident porro.</p>
+                <p>{{producto.descripcion}}</p>
             </div>
 
 
@@ -49,7 +44,6 @@
                     class="bg-black-alpha-90 col-12 w-full px-0" 
                     [style]="{'width':'100%'}" 
                 ></button>
-                
             </div>
             
             <div class="col-2 flex align-items-center justify-content-center">
@@ -64,7 +58,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <div class="grid grid-nogutter mt-3 px-2">
@@ -73,7 +66,7 @@
     </div>
 </div>
 
-<app-carta 
+<app-carta-grid
     [productosPares]="productosPares" 
     [productosImpares]="productosImpares"
-></app-carta>
+></app-carta-grid>

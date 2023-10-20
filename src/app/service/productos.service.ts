@@ -1,81 +1,55 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
-import { ProductoModel } from 'src/app/models/model/producto.model';
+import { Injectable } from '@angular/core';
+import { ProductoModel } from '../models/model/producto.model';
+import { Imagen } from '../models/interface/imagen.interface';
 
-@Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+@Injectable({
+  providedIn: 'root'
 })
-export class HomeComponent {
+export class ProductosService {
 
+  producto        : ProductoModel;
   productos       : ProductoModel[] = [];
   productosPares  : ProductoModel[];
   productosImpares: ProductoModel[];
 
-  isSearchFixed = false;
+  imagenes: Imagen[];
 
-  constructor(private el: ElementRef) {
-    
+  constructor() { 
+
+    this.producto = this.buildProducto(
+      '1234',
+      'Camara 1',
+      'Camara de 20mp',
+      'https://media.istockphoto.com/id/1405489463/es/foto/vista-de-tres-cuartos-de-la-c%C3%A1mara-de-vigilancia-varifocal-con-una-casa-al-fondo.jpg?s=1024x1024&w=is&k=20&c=fGv5sPwdXqu7r9CUqceZK87orPMd77pGnixu2ALF9Yw=',
+      'REF123',
+      'REFL123',
+      8140.12,
+      '',
+      11420,
+      'activo',
+      12580.11,
+      '1',
+      '2',
+      '3',
+    );
+
+    this.imagenes = [
+      {
+        src: 'https://media.istockphoto.com/id/639291822/es/foto/cctv-de-c%C3%A1mara-de-seguridad.jpg?s=1024x1024&w=is&k=20&c=qXFTIpwwHTcPFpat_SxitdE5LeHC8VTZntpGt8k4rCg=',
+        alt: 'Cámara de seguridad 1'
+  
+      },
+      {
+        src: 'https://media.istockphoto.com/id/1562449627/es/foto/c%C3%A1mara-de-cctv-en-garaje-subterr%C3%A1neo-espacio-de-copia.jpg?s=1024x1024&w=is&k=20&c=OVwqMwWOup4Lgglhk_xB6xkBfHuUvHhvDHXNeWgUNi4=',
+        alt: 'Cámara de seguridad 2'
+      },
+      // Agrega más imágenes aquí
+    ];
+
     this.productos = this.getListProducto();
 
     this.productosPares   = this.productos.filter((_, index) => index % 2 === 0);
     this.productosImpares = this.productos.filter((_, index) => index % 2 !== 0);
-  }
-
-  @HostListener("window:scroll", [])
-  onWindowScroll() {
-    const searchElement = this.el.nativeElement.querySelector('#search');
-    const spacerElement = this.el.nativeElement.querySelector('.spacer');
-    const bannerHeight = this.el.nativeElement.querySelector('app-banner').offsetHeight;
-    const scrollPosition = window.pageYOffset;
-    const spacerHeight = spacerElement.clientHeight;
-
-    if (scrollPosition >= bannerHeight) {
-      searchElement.classList.add('fixed-search');
-      spacerElement.style.height = searchElement.clientHeight + 'px';
-      this.isSearchFixed = true;
-    } else {
-      searchElement.classList.remove('fixed-search');
-      spacerElement.style.height = '0';
-      this.isSearchFixed = false;
-    }
-  }
-
-  buildProducto(
-    id:string,
-    nombre:string,
-    descripcion:string,
-    url_imagen:string,
-    referencia:string,
-    referencia_local:string,
-    precio:number,
-    ficha_tecnica:string,
-    unidades:number,
-    estado:string,
-    precio_anterior:number,
-    id_categoria:string,
-    id_tipo:string,
-    id_marca:string,
-  ) {
-    
-    let producto = new ProductoModel();
-    
-    producto.id                = id;
-    producto.nombre            = nombre;
-    producto.descripcion       = descripcion;
-    producto.url_imagen        = url_imagen;
-    producto.referencia        = referencia;
-    producto.referencia_local  = referencia_local;
-    producto.precio            = precio;
-    producto.ficha_tecnica     = ficha_tecnica;
-    producto.unidades          = unidades;
-    producto.estado            = estado;
-    producto.precio_anterior   = precio_anterior;
-    producto.id_categoria      = id_categoria;
-    producto.id_tipo           = id_tipo;
-    producto.id_marca          = id_marca;
-
-    return producto;
   }
 
   getListProducto() {
@@ -180,4 +154,42 @@ export class HomeComponent {
 
     return data;
   }
+
+  buildProducto(
+    id:string,
+    nombre:string,
+    descripcion:string,
+    url_imagen:string,
+    referencia:string,
+    referencia_local:string,
+    precio:number,
+    ficha_tecnica:string,
+    unidades:number,
+    estado:string,
+    precio_anterior:number,
+    id_categoria:string,
+    id_tipo:string,
+    id_marca:string,
+  ) {
+    
+    let producto = new ProductoModel();
+    
+    producto.id                = id;
+    producto.nombre            = nombre;
+    producto.descripcion       = descripcion;
+    producto.url_imagen        = url_imagen;
+    producto.referencia        = referencia;
+    producto.referencia_local  = referencia_local;
+    producto.precio            = precio;
+    producto.ficha_tecnica     = ficha_tecnica;
+    producto.unidades          = unidades;
+    producto.estado            = estado;
+    producto.precio_anterior   = precio_anterior;
+    producto.id_categoria      = id_categoria;
+    producto.id_tipo           = id_tipo;
+    producto.id_marca          = id_marca;
+
+    return producto;
+  }
+
 }

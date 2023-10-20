@@ -18,6 +18,9 @@ import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { NavbarMovilPublicoComponent } from './components/navbar-movil-publico/navbar-movil-publico.component';
 import { CartaGridComponent } from './components/carta-grid/carta-grid.component';
+import { CarruselComponent } from './components/carrusel/carrusel.component';
+import { ProductosService } from '../service/productos.service';
+import { OrderlistComponent } from './components/orderlist/orderlist.component';
 
 @NgModule({
   
@@ -34,7 +37,9 @@ import { CartaGridComponent } from './components/carta-grid/carta-grid.component
     NavbarMovilPublicoComponent,
     ProductoComponent,
     SearchComponent,
-    CartaGridComponent
+    CartaGridComponent,
+    CarruselComponent,
+    OrderlistComponent,
   ],
 
   exports: [
@@ -49,7 +54,9 @@ import { CartaGridComponent } from './components/carta-grid/carta-grid.component
     NavbarMovilComponent,
     NavbarMovilPublicoComponent,
     ProductoComponent,
-    SearchComponent
+    SearchComponent,
+    CartaGridComponent,
+    OrderlistComponent
   ],
 
   imports: [
@@ -59,6 +66,7 @@ import { CartaGridComponent } from './components/carta-grid/carta-grid.component
     
     MenubarModule,
     InputTextModule,
-  ]
+  ],
+  providers: [ProductosService]
 })
 export class SharedModule {}
