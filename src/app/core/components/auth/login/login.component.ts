@@ -42,7 +42,9 @@ export class LoginComponent {
       return Object.values(this.formLogin.controls).forEach(control => {
 
         control.markAsTouched();
-      })
+      });
+
+      
     }
 
     console.log(this.formLogin);

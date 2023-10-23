@@ -1,0 +1,11 @@
+<app-banner></app-banner>
+
+<div class="spacer"></div>
+
+<app-search id="search"></app-search>
+
+<app-carta-grid 
+    [banner]="true"
+    [productosPares]="productosService.productosPares" 
+    [productosImpares]="productosService.productosImpares"
+></app-carta-grid>

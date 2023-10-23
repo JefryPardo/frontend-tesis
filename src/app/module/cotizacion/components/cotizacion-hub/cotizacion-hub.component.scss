@@ -1,0 +1,22 @@
+.fixed-search {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    background-color: #fff; /* Ajusta el color de fondo según tus necesidades */
+    /* Otros estilos que desees aplicar al elemento fijo */
+}
+
+.fotter {
+
+    height: 150px;
+}
+
+
+:host ::ng-deep {  
+    
+    .p-dialog .p-dialog-content {
+        min-height: 400px !important;
+    }
+}

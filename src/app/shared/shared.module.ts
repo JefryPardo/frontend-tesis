@@ -14,13 +14,19 @@ import { NumberPipe } from './pipe/number.pipe';
 
 import { NavbarMovilComponent } from './components/navbar-movil/navbar-movil.component';
 
-import { MenubarModule } from 'primeng/menubar';
-import { InputTextModule } from 'primeng/inputtext';
 import { NavbarMovilPublicoComponent } from './components/navbar-movil-publico/navbar-movil-publico.component';
 import { CartaGridComponent } from './components/carta-grid/carta-grid.component';
 import { CarruselComponent } from './components/carrusel/carrusel.component';
 import { ProductosService } from '../service/productos.service';
-import { OrderlistComponent } from './components/orderlist/orderlist.component';
+
+import { InputTextModule } from 'primeng/inputtext';
+import { MenubarModule } from 'primeng/menubar';
+import { OrderListModule } from 'primeng/orderlist';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { CalendarModule } from 'primeng/calendar';
+import { TituloComponent } from './components/titulo/titulo.component';
+import { OrderlistCotizacionesComponent } from './components/orderlist-cotizaciones/orderlist-cotizaciones.component';
 
 @NgModule({
   
@@ -39,7 +45,8 @@ import { OrderlistComponent } from './components/orderlist/orderlist.component';
     SearchComponent,
     CartaGridComponent,
     CarruselComponent,
-    OrderlistComponent,
+    TituloComponent,
+    OrderlistCotizacionesComponent
   ],
 
   exports: [
@@ -56,7 +63,8 @@ import { OrderlistComponent } from './components/orderlist/orderlist.component';
     ProductoComponent,
     SearchComponent,
     CartaGridComponent,
-    OrderlistComponent
+    TituloComponent,
+    OrderlistCotizacionesComponent,
   ],
 
   imports: [
@@ -66,6 +74,11 @@ import { OrderlistComponent } from './components/orderlist/orderlist.component';
     
     MenubarModule,
     InputTextModule,
+    OrderListModule,
+    ButtonModule,
+    DialogModule,
+    CalendarModule
+
   ],
   providers: [ProductosService]
 })

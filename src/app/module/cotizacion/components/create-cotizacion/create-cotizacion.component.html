@@ -1,0 +1,77 @@
+<button 
+    pButton 
+    pRipple 
+    (click)="showDialog()"
+    icon="pi pi-plus" 
+    class="bg-black-alpha-90 w-full px-0" 
+    [style]="{'width':'100%'}" 
+></button>
+
+<p-dialog 
+    header="Crear nueva cotización" 
+    [(visible)]="visible" 
+    [style]="{width: '90%'}"
+    class="altura"
+>
+    <div class="grid grid-nogutter">
+
+        <div class="col-12 flex mt-2">
+            <input 
+                pInputText 
+                type="text"
+                class="w-full" 
+                placeholder="Nombre cotización *"
+            />
+        </div>
+
+        <div class="col-12 flex">
+            <p-calendar 
+                [style]="{width: '100%'}" 
+                class="w-full mt-2" 
+                view="month" 
+                dateFormat="dd/mm/yy" 
+                [readonlyInput]="true"
+                placeholder="fecha vencimiento"
+            ></p-calendar>
+        </div>
+
+        <div class="col-12 flex mt-2">
+            <input 
+                pInputText 
+                type="text"
+                class="w-full" 
+                placeholder="Nombre cliente"
+            />
+        </div>
+
+        <div class="col-12 flex mt-2">
+            <input 
+                pInputText 
+                type="text"
+                class="w-full" 
+                placeholder="Cedula cliente"
+            />
+        </div>
+
+        <div class="col-12 flex mt-2">
+            <input 
+                pInputText 
+                type="text"
+                class="w-full" 
+                placeholder="Correo cliente"
+            />
+        </div>
+
+        <div class="col-12">
+            <button 
+                pButton 
+                pRipple 
+                (click)="crearCotizacion()"
+                label="Crear"
+                class="bg-black-alpha-90 w-full px-0 mt-3" 
+                [style]="{'width':'100%'}" 
+            ></button>
+        </div>
+        
+    </div>
+</p-dialog>

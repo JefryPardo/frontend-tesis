@@ -1,4 +1,5 @@
 import { Component, HostListener, Input } from '@angular/core';
+import { Imagen } from 'src/app/models/interface/imagen.interface';
 import { ProductoModel } from 'src/app/models/model/producto.model';
 
 @Component({
@@ -8,6 +9,7 @@ import { ProductoModel } from 'src/app/models/model/producto.model';
 })
 export class ProductoComponent {
 
+  @Input() imagenes: Imagen[];
   @Input() producto: ProductoModel;
   @Input() productos: ProductoModel[];
   @Input() productosPares: ProductoModel[];

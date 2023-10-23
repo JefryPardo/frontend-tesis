@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PrincipalComponent } from './principal.component';
-import { InicioComponent } from './components/inicio/inicio.component';
-import { CotizacionesComponent } from './components/cotizaciones/cotizaciones.component';
+import { InicioComponent } from './inicio/inicio.component';
 
 
 
@@ -10,8 +9,8 @@ const routes: Routes = [
   { path: '', component: PrincipalComponent , children:
     [
       { path:'' , redirectTo: 'inicio', pathMatch: 'full' },
-      { path:'inicio', component: InicioComponent },
-      { path:'cotizacion', component: CotizacionesComponent },
+      { path:'inicio',      loadChildren: () => import('./inicio/inicio.module').then(m => m.InicioModule) },
+      { path:'cotizacion',  loadChildren: () => import('./cotizacion/cotizacion.module').then(m => m.CotizacionModule) },
       { path:'**', redirectTo: 'inicio', pathMatch: 'full' }
     ]
   }

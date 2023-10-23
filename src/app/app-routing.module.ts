@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', redirectTo: 'app', pathMatch: 'full' },
-  { path: 'app',    loadChildren: () => import('./core/core.module').then(m => m.CoreModule) },
-  { path: 'start',  loadChildren: () => import('./module/principal.module').then(m => m.PrincipalModule) },
+  { path: 'auth',   loadChildren: () => import('./core/core.module').then(m => m.CoreModule) },
+  { path: 'app',  canActivate: []   loadChildren: () => import('./module/principal.module').then(m => m.PrincipalModule) },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

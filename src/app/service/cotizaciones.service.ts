@@ -7,7 +7,7 @@ import { CotizacionModel } from '../models/model/cotizacion.model';
 export class CotizacionesService {
 
   cotizacion    : CotizacionModel;
-  cotizaciones  : CotizacionModel[];
+  cotizaciones  : CotizacionModel[] = [];
 
   constructor() {
 
@@ -42,9 +42,9 @@ export class CotizacionesService {
   getListCotizaciones() {
 
     
-    let cotizacion1 = this.builCotizacion(
+    let cotizacion10 = this.builCotizacion(
       '1234',
-      'Cotizacion #1',
+      'jefry',
       '20/10/2023',
       '20/10/2024',
       'Jefry',
@@ -77,7 +77,13 @@ export class CotizacionesService {
    
 
     let data: CotizacionModel[] = [];
-    data.push(cotizacion1);
+    data.push(cotizacion2);
+    data.push(cotizacion2);
+    data.push(cotizacion3);
+    data.push(cotizacion10);
+    data.push(cotizacion2);
+    data.push(cotizacion3);
+    data.push(cotizacion2);
     data.push(cotizacion2);
     data.push(cotizacion3);
 
