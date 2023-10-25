@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from "@auth0/angular-jwt";
 
@@ -21,5 +22,14 @@ export class JwtService {
 
   isTokenExpired(token: string) {
     return this.helper.isTokenExpired(token);
+  }
+
+  getHttpOptionsWithToken(token: string): any {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
   }
 }

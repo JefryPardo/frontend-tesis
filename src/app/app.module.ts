@@ -12,13 +12,17 @@ import { MessageService } from 'primeng/api';
 
 import { ToastService } from './service/toast.service';
 import { AuthGuard } from './core/components/auth/auth.guard';
+import { RolDirective } from './directive/rol.directive';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
+    RolDirective,
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
 
     BrowserAnimationsModule,

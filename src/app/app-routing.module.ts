@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path: '', redirectTo: 'app', pathMatch: 'full' },
   { path: 'auth',   loadChildren: () => import('./core/core.module').then(m => m.CoreModule) },
-  { path: 'app',  canActivate: []   loadChildren: () => import('./module/principal.module').then(m => m.PrincipalModule) },
+  { path: 'app',    loadChildren: () => import('./module/principal.module').then(m => m.PrincipalModule) },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

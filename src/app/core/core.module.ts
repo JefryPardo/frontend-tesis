@@ -14,6 +14,7 @@ import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { SharedModule } from '../shared/shared.module';
+import { AuthService } from './components/auth/service/auth.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,9 @@ import { SharedModule } from '../shared/shared.module';
     ButtonModule,
     DropdownModule,
     InputTextModule
-  ]
+  ],
+
+  providers: [AuthService]
 })
 
 export class CoreModule { }
