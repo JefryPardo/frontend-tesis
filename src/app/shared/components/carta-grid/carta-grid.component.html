@@ -7,14 +7,20 @@
         </div>
 
         <div *ngFor="let producto of productosImpares;">
-            <app-carta [producto]="producto" ></app-carta>
+            <app-carta 
+                [producto]="producto" 
+                (click)="onInputCardChange(producto)"
+            ></app-carta>
         </div>
     </div>
     
     <div class="columna">
         
         <div *ngFor="let producto of productosPares;">
-            <app-carta [producto]="producto" ></app-carta>
+            <app-carta 
+                [producto]="producto" 
+                (click)="onInputCardChange(producto)"
+            ></app-carta>
         </div>
     </div>
 </div>

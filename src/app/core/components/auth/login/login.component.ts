@@ -6,7 +6,6 @@ import { AuthService } from '../service/auth.service';
 import { environment } from 'src/environments/environment';
 import { ResponseModel } from 'src/app/models/model/response.model';
 import { JwtService } from 'src/app/service/jwt.service';
-import { LoginResponseModel } from 'src/app/models/auth/login.response.model';
 import { RolService } from 'src/app/service/rol.service';
 import { Router } from '@angular/router';
 
@@ -74,8 +73,8 @@ export class LoginComponent {
           
           if( code == '#SL') {
             
-            const response : LoginResponseModel = body.response;
-            this.controlLoginExitoso(response);
+            const token : string = body.response;
+            this.controlLoginExitoso(token);
             this.router.navigate(['/app']);            
           }
 
@@ -109,30 +108,21 @@ export class LoginComponent {
       
       (err)=>{
         
-        this.mensaje.mostrarAlertaError('Error','Algo salio mal.');
+        this.mensaje.mostrarAlertaError('Spinner off','');
         return;
       }
     );
   }
 
-  controlLoginExitoso(response : LoginResponseModel) {
+  controlLoginExitoso(token : string) {
 
-    localStorage.setItem(environment.nombreToken, response.token);
-    this.rolService.roles = response.roles;
-    // console.log(this.jwtService.getTokenExpirationDate(token));
+    localStorage.setItem(environment.nombreToken, token);
+    this.rolService.roles = this.jwtService.decodeToken(token).roles;
   }
 
-  token() {
+  register() {
 
-    const token = localStorage.getItem(environment.nombreToken);
-
-    console.log('token: ',token);
-
-    if(token == null || token == undefined ) return;
-
-    console.log(this.jwtService.decodeToken(token).roles);
-    console.log(this.jwtService.isTokenExpired(token));
-    console.log(this.jwtService.getTokenExpirationDate(token));
+    this.router.navigate(['/auth/register']);
   }
 
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ProductoModel } from 'src/app/models/model/producto.model';
 
 @Component({
@@ -8,9 +8,15 @@ import { ProductoModel } from 'src/app/models/model/producto.model';
 })
 export class CartaGridComponent {
 
+  @Output() idChanged = new EventEmitter<string>();
+
   @Input() banner: boolean = false;
   @Input() productosPares: ProductoModel[];
   @Input() productosImpares: ProductoModel[];
 
-  
+  onInputCardChange(producto: ProductoModel) {
+    
+    console.log('clic: ',producto);
+    this.idChanged.emit(producto.id);
+  }
 }

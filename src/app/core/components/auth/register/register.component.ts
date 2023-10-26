@@ -4,6 +4,7 @@ import { UsuarioModel } from 'src/app/models/model/usuario.model';
 import { ToastService } from 'src/app/service/toast.service';
 import { AuthService } from '../service/auth.service';
 import { ResponseModel } from 'src/app/models/model/response.model';
+import { Router } from '@angular/router';
 
 
 interface TipoDocumentoI {
@@ -26,7 +27,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder, 
     private mensaje: ToastService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
   ) {
 
     this.formRegistro = this.inicializarFormularioLogin();
@@ -104,8 +106,6 @@ export class RegisterComponent {
 
         if (res.status == 200) {
 
-          console.log(res);
-
           const body: ResponseModel = res.body;
           const code : string = body.code;
           const mensaje : string = body.response;
@@ -142,6 +142,10 @@ export class RegisterComponent {
       }
     );
 
+  }
+
+  login() {
+    this.router.navigate(['/auth/login']);
   }
 
   mensajeAlertaError(titulo: string, mensaje: string) {

@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Imagen } from 'src/app/models/interface/imagen.interface';
 
 @Component({
   selector: 'app-carrusel',
@@ -8,6 +7,6 @@ import { Imagen } from 'src/app/models/interface/imagen.interface';
 })
 export class CarruselComponent {
 
-  @Input() imagenes: Imagen[];
+  @Input() imagenes: string[];
 
 }

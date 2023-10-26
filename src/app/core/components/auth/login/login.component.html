@@ -49,15 +49,6 @@
                                 label="Iniciar sesión"
                             ></p-button>
                             
-                            <p-button 
-                                (onClick)="token()"
-                                class="col-12 w-full px-0" 
-                                [style]="{'width':'100%'}" 
-                                label="token"
-                            ></p-button>
-
-                            
-                            
                         </div>
                         
                         
@@ -66,11 +57,12 @@
                         <div class="grid grid-nogutter col-12 flex justify-content-center flex-wrap mt-1">
 
                                 
-                                <p-button 
-                                    class="flex align-items-center justify-content-center"
-                                    label="Crear cuenta nueva" 
-                                    styleClass="p-button-secondary p-button-text"
-                                ></p-button>
+                            <p-button 
+                                (onClick)="register()"
+                                class="flex align-items-center justify-content-center"
+                                label="Crear cuenta nueva" 
+                                styleClass="p-button-secondary p-button-text"
+                            ></p-button>
                         </div>
 
 

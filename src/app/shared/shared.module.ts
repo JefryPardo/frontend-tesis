@@ -27,6 +27,7 @@ import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { TituloComponent } from './components/titulo/titulo.component';
 import { OrderlistCotizacionesComponent } from './components/orderlist-cotizaciones/orderlist-cotizaciones.component';
+import { ProductoPublicoComponent } from './components/producto-publico/producto-publico.component';
 
 @NgModule({
   
@@ -46,7 +47,8 @@ import { OrderlistCotizacionesComponent } from './components/orderlist-cotizacio
     CartaGridComponent,
     CarruselComponent,
     TituloComponent,
-    OrderlistCotizacionesComponent
+    OrderlistCotizacionesComponent,
+    ProductoPublicoComponent
   ],
 
   exports: [
@@ -65,6 +67,7 @@ import { OrderlistCotizacionesComponent } from './components/orderlist-cotizacio
     CartaGridComponent,
     TituloComponent,
     OrderlistCotizacionesComponent,
+    ProductoPublicoComponent,
   ],
 
   imports: [

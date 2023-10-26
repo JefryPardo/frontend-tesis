@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { LoginModel } from 'src/app/models/auth/login.model';
 import { UsuarioModel } from 'src/app/models/model/usuario.model';
+import { ToastService } from 'src/app/service/toast.service';
 import { environment } from 'src/environments/environment';
 
 const httpOptions = {
@@ -16,7 +17,7 @@ const httpOptions = {
 })
 export class AuthService {
 
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient, private mensaje: ToastService) { }
 
   public login(data: LoginModel) : Observable<any>{
 
@@ -33,10 +34,7 @@ export class AuthService {
   }
 
   private handleError(error: HttpErrorResponse, clientMessage: string[]) {
-    console.log(error);
-    // if (error instanceof HttpErrorResponse) {
-    //   this.toastUtils.addSingleError(clientMessage[0],clientMessage[1]);
-    // }
+    this.mensaje.mostrarAlertaError(clientMessage[0],clientMessage[1]);
     return throwError(clientMessage);
   }
 

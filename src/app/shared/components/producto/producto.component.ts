@@ -1,6 +1,8 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Imagen } from 'src/app/models/interface/imagen.interface';
 import { ProductoModel } from 'src/app/models/model/producto.model';
+import { ProductosService } from 'src/app/service/productos.service';
 
 @Component({
   selector: 'app-producto',
@@ -9,15 +11,18 @@ import { ProductoModel } from 'src/app/models/model/producto.model';
 })
 export class ProductoComponent {
 
-  @Input() imagenes: Imagen[];
   @Input() producto: ProductoModel;
+
   @Input() productos: ProductoModel[];
   @Input() productosPares: ProductoModel[];
   @Input() productosImpares: ProductoModel[];
   
   @Input() favorito: boolean;
 
-  constructor() {}
+  constructor() {
+
+    console.log(this.producto);
+  }
   
   toggleFavorite(favorito: boolean) {
 
@@ -49,7 +54,6 @@ export class ProductoComponent {
     
     return unidades.toString();
   }
-
   
   validarPrecio( producto :ProductoModel ) {
 
