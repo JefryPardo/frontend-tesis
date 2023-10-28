@@ -5,6 +5,7 @@ import { ToastService } from 'src/app/service/toast.service';
 import { AuthService } from '../service/auth.service';
 import { ResponseModel } from 'src/app/models/model/response.model';
 import { Router } from '@angular/router';
+import { RegisterModel } from 'src/app/models/auth/register.model';
 
 
 interface TipoDocumentoI {
@@ -63,8 +64,6 @@ export class RegisterComponent {
 
   register() {
     
-    console.log(this.formRegistro.value);
-
     if(this.formRegistro.invalid) {
         
       if(this.campoInvalid('nombre'))         this.mensajeAlertaError('Nombre:',          'Se requiere el nombre.');
@@ -82,9 +81,8 @@ export class RegisterComponent {
       });
     }
 
-    const usuario: UsuarioModel = {
+    const usuario: RegisterModel = {
       
-      "id":                 '',
       "nombre":             this.formRegistro.value.nombre,
       "apellido":           this.formRegistro.value.apellido,
       "direccion":          this.formRegistro.value.direccion,
@@ -104,12 +102,20 @@ export class RegisterComponent {
       
       (res) => {
 
+        console.log(res);
+
         if (res.status == 200) {
 
           const body: ResponseModel = res.body;
           const code : string = body.code;
           const mensaje : string = body.response;
 
+          if(code === '#RS') {
+
+            this.login();
+            this.mensaje.mostrarAlertaSuccess('Success',mensaje);
+            return;
+          }
 
         } else if (res.status == 500) {
 

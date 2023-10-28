@@ -75,7 +75,8 @@ export class LoginComponent {
             
             const token : string = body.response;
             this.controlLoginExitoso(token);
-            this.router.navigate(['/app']);            
+            this.router.navigate(['app/catalogo']);     
+            return;       
           }
 
           if(code == '#L02') {
