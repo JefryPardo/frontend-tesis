@@ -60,19 +60,11 @@ export class InicioHubComponent {
     
     const token: string | null = this.jwtService.getToken();
 
-    if(token == null) {
-      // sesion expirada
+    if(token == null || this.jwtService.isTokenExpired(token)) {
       this.router.navigate(['auth/login']);
       return;
     }
     
-    if(this.jwtService.isTokenExpired(token)) {
-      
-      // sesion expirada
-      this.router.navigate(['auth/login']);
-      return;
-    }
-
     this.inicioService.getProductos(token).subscribe(
       
       (res) => {
@@ -83,6 +75,8 @@ export class InicioHubComponent {
           const response : ProductoModel[] = body.response;
 
           this.productos = response;
+
+          console.log(this.productos);
           this.filteredProductosPares   = this.productos.filter((_, index) => index % 2 === 0);
           this.filteredProductosImpares = this.productos.filter((_, index) => index % 2 !== 0);
           
@@ -97,7 +91,6 @@ export class InicioHubComponent {
           
           if(code === "TOK02") {
 
-            // sesion expirada
             this.router.navigate(['auth/login']);
             return;
           }
@@ -131,7 +124,6 @@ export class InicioHubComponent {
 
   onCardChanged(id_producto: string) {
 
-    console.log('llego: ',id_producto);
     this.router.navigate(['app/catalogo/producto', id_producto]);
   }
 }

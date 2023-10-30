@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from './toast.service';
+import { JwtService } from './jwt.service';
+import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { CotizacionModel } from '../models/model/cotizacion.model';
 
 @Injectable({
@@ -6,87 +11,35 @@ import { CotizacionModel } from '../models/model/cotizacion.model';
 })
 export class CotizacionesService {
 
-  cotizacion    : CotizacionModel;
-  cotizaciones  : CotizacionModel[] = [];
+  constructor(
+    private http : HttpClient, 
+    private mensaje: ToastService,
+    private jwtService: JwtService    
+  ) {}
 
-  constructor() {
+  public getCotizacionesList(token:string, id_usuario:string) : Observable<any> {
 
-    this.cotizaciones = this.getListCotizaciones();
+    return this.http.get(environment.api + `/cotizacion/all/by/usuario/${id_usuario}`,this.jwtService.getHttpOptionsWithToken(token)).pipe(
+      catchError((err) => this.handleError(err, ['Error', 'Fallas consultando, inténtelo nuevamente.']))
+    );
   }
 
-  builCotizacion(
-    id                  : string, 
-    nombre              : string, 
-    fecha_creacion      : string,
-    fecha_vencimiento   : string,
-    nombre_cliente      : string,
-    cedula_cliente      : string,
-    correo_cliente      : string,
-    id_usuario          : string
-  ) {
+  public createCotizacion(token:string, data: CotizacionModel) : Observable<any>{
 
-    let cotizacion = new CotizacionModel();
-    
-    cotizacion.id                = id;
-    cotizacion.nombre            = nombre;
-    cotizacion.fecha_creacion    = fecha_creacion;
-    cotizacion.fecha_vencimiento = fecha_vencimiento;
-    cotizacion.nombre_cliente    = nombre_cliente;
-    cotizacion.cedula_cliente    = cedula_cliente;
-    cotizacion.correo_cliente    = correo_cliente;
-    cotizacion.id_usuario        = id_usuario;
-
-    return cotizacion;
+    return this.http.post(environment.api + '/cotizacion/insert', data ,this.jwtService.getHttpOptionsWithToken(token)).pipe(
+      catchError((err) => this.handleError(err, ['Error', 'Fallas iniciando sesion, inténtelo nuevamente.']))
+    );
   }
 
-  getListCotizaciones() {
+  public getCotizacion(token:string, id:string) : Observable<any> {
 
-    
-    let cotizacion10 = this.builCotizacion(
-      '1234',
-      'jefry',
-      '20/10/2023',
-      '20/10/2024',
-      'Jefry',
-      '1107102699',
-      'jeffryjhoan1996@gmail.com',
-      'idcliente'
+    return this.http.get(environment.api + `/cotizacion/find/${id}`,this.jwtService.getHttpOptionsWithToken(token)).pipe(
+      catchError((err) => this.handleError(err, ['Error', 'Fallas consultando, inténtelo nuevamente.']))
     );
-    
-    let cotizacion2 = this.builCotizacion(
-      '1234',
-      'Cotizacion #1',
-      '20/10/2023',
-      '20/10/2024',
-      'Jefry',
-      '1107102699',
-      'jeffryjhoan1996@gmail.com',
-      'idcliente'
-    );
+  }
 
-    let cotizacion3 = this.builCotizacion(
-      '1234',
-      'Cotizacion #1',
-      '20/10/2023',
-      '20/10/2024',
-      'Jefry',
-      '1107102699',
-      'jeffryjhoan1996@gmail.com',
-      'idcliente'
-    );
-   
-
-    let data: CotizacionModel[] = [];
-    data.push(cotizacion2);
-    data.push(cotizacion2);
-    data.push(cotizacion3);
-    data.push(cotizacion10);
-    data.push(cotizacion2);
-    data.push(cotizacion3);
-    data.push(cotizacion2);
-    data.push(cotizacion2);
-    data.push(cotizacion3);
-
-    return data;
+  private handleError(error: HttpErrorResponse, clientMessage: string[]) {
+    this.mensaje.mostrarAlertaError(clientMessage[0],clientMessage[1]);
+    return throwError(clientMessage);
   }
 }

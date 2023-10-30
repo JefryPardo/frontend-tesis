@@ -66,6 +66,7 @@
 </div>
 
 <app-carta-grid
+    (idChanged)="onCardChanged($event)"
     [productosPares]="productosPares" 
     [productosImpares]="productosImpares"
 ></app-carta-grid>

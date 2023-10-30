@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { CotizacionModel } from 'src/app/models/model/cotizacion.model';
 
 @Component({
@@ -12,9 +13,11 @@ export class OrderlistCotizacionesComponent {
   @Input() cotizaciones : CotizacionModel[];
   @Input() titulo       : string;
 
-  verCotizacion() {
+  constructor(private router: Router) {}
 
-    console.log('verCotizacion');
+  verCotizacion(cotizacion:CotizacionModel) {
+
+    this.router.navigate(['app/cotizacion/hub', cotizacion.id]);
   }
 
   menu() {

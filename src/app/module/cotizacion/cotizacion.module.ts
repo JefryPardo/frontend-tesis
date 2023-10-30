@@ -11,6 +11,8 @@ import { ListaCotizacionesComponent } from './components/lista-cotizaciones/list
 import { CotizacionHubComponent } from './components/cotizacion-hub/cotizacion-hub.component';
 import { CreateCotizacionComponent } from './components/create-cotizacion/create-cotizacion.component';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -28,13 +30,16 @@ import { TabViewModule } from 'primeng/tabview';
     CommonModule,
     CotizacionRoutingModule,
     
+    FormsModule,
+    ReactiveFormsModule,
+
     SharedModule,
 
     DialogModule,
     CalendarModule,
     InputTextModule,
     ScrollPanelModule,
-    TabViewModule
+    TabViewModule,
   ],
 
   providers: [

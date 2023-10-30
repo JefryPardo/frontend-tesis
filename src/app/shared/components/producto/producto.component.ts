@@ -1,5 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 import { Imagen } from 'src/app/models/interface/imagen.interface';
 import { ProductoModel } from 'src/app/models/model/producto.model';
 import { ProductosService } from 'src/app/service/productos.service';
@@ -19,9 +20,13 @@ export class ProductoComponent {
   
   @Input() favorito: boolean;
 
-  constructor() {
+  constructor(private router: Router) {
 
-    console.log(this.producto);
+    this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe(() => {
+      window.scrollTo(0, 0);
+    });
   }
   
   toggleFavorite(favorito: boolean) {
@@ -58,6 +63,11 @@ export class ProductoComponent {
   validarPrecio( producto :ProductoModel ) {
 
     return producto.precio < producto.precio_anterior;
+  }
+
+  onCardChanged(id_producto: string) {
+
+    this.router.navigate(['app/catalogo/producto', id_producto]);
   }
 }
 

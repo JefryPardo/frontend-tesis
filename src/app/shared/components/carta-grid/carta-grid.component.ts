@@ -15,8 +15,7 @@ export class CartaGridComponent {
   @Input() productosImpares: ProductoModel[];
 
   onInputCardChange(producto: ProductoModel) {
-    
-    console.log('clic: ',producto);
+    console.log(producto);
     this.idChanged.emit(producto.id);
   }
 }

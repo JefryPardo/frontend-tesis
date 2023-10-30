@@ -6,7 +6,7 @@
             <img src="https://raw.githubusercontent.com/JefryPardo/tesis-img/master/banner-oscuro.jpeg"/>
         </div>
 
-        <div *ngFor="let producto of productosImpares;">
+        <div *ngFor="let producto of productosPares;">
             <app-carta 
                 [producto]="producto" 
                 (click)="onInputCardChange(producto)"
@@ -15,9 +15,8 @@
     </div>
     
     <div class="columna">
-        
-        <div *ngFor="let producto of productosPares;">
-            <app-carta 
+        <div *ngFor="let producto of productosImpares;">
+            <app-carta  pp-carta 
                 [producto]="producto" 
                 (click)="onInputCardChange(producto)"
             ></app-carta>

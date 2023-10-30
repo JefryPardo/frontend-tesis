@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CotizacionComponent } from './cotizacion.component';
-import { CreateCotizacionComponent } from './components/create-cotizacion/create-cotizacion.component';
 import { ListaCotizacionesComponent } from './components/lista-cotizaciones/lista-cotizaciones.component';
 import { CotizacionHubComponent } from './components/cotizacion-hub/cotizacion-hub.component';
 
@@ -12,7 +11,7 @@ const routes: Routes = [
     [
       { path:'' , redirectTo: 'list', pathMatch: 'full' },
       { path:'list',    component: ListaCotizacionesComponent },
-      { path:'hub',     component: CotizacionHubComponent },
+      { path:'hub/:id',     component: CotizacionHubComponent },
       { path:'**', redirectTo: 'list', pathMatch: 'full' }
     ]
   }

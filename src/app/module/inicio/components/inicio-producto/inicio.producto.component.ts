@@ -41,11 +41,19 @@ export class InicioProductoComponent implements OnInit {
 
       this.productoService.getProducto(id).subscribe(producto => {
         
-        this.producto = producto.body;
-        console.log(this.producto);
-        this.getListProducto();
-        this.estado = true;
-        console.log('termino');
+        let response:ResponseModel = producto.body;
+        
+        if(response.code === '#SP') {
+
+          this.producto = response.response;
+          this.getListProducto();
+          this.estado = true;
+        }else {
+
+          this.router.navigate(['app']);
+          this.mensaje.mostrarAlertaError('Error','Algo salio mal, por favor reportalo.')
+        }
+        
       });
     });
 
@@ -56,14 +64,12 @@ export class InicioProductoComponent implements OnInit {
     const token: string | null = this.jwtService.getToken();
 
     if(token == null) {
-      // sesion expirada
       this.router.navigate(['auth/login']);
       return;
     }
     
     if(this.jwtService.isTokenExpired(token)) {
       
-      // sesion expirada
       this.router.navigate(['auth/login']);
       return;
     }
@@ -83,8 +89,6 @@ export class InicioProductoComponent implements OnInit {
           
           this.productosPares   = this.productos.filter((_, index) => index % 2 === 0);
           this.productosImpares = this.productos.filter((_, index) => index % 2 !== 0);
-
-          console.log('end');
           return;
 
         } else if (res.status == 500) {
@@ -93,7 +97,6 @@ export class InicioProductoComponent implements OnInit {
           
           if(code === "TOK02") {
 
-            // sesion expirada
             this.router.navigate(['auth/login']);
             return;
           }

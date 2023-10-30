@@ -1,8 +1,8 @@
 export class CotizacionModel {
     
-    id                  : string;
+    id?                  : string;
     nombre              : string;
-    fecha_creacion      : string;
+    fecha_creacion?      : string;
     fecha_vencimiento   : string;
     nombre_cliente      : string;
     cedula_cliente      : string;
