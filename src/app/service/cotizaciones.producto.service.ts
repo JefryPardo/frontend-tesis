@@ -4,6 +4,7 @@ import { ToastService } from "./toast.service";
 import { JwtService } from "./jwt.service";
 import { Observable, catchError, throwError } from "rxjs";
 import { environment } from "src/environments/environment";
+import { CotizacionProductoModel } from "../models/model/cotizacion-producto.model";
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +21,13 @@ export class CotizacionesProductoService {
 
         return this.http.get(environment.api + `/cotizacion-producto/all/${id_cotizacion}`,this.jwtService.getHttpOptionsWithToken(token)).pipe(
             catchError((err) => this.handleError(err, ['Error', 'Fallas consultando, inténtelo nuevamente.']))
+        );
+    }
+    
+    public createCotizacionProducto(token:string, data: CotizacionProductoModel) : Observable<any>{
+
+        return this.http.post(environment.api + '/cotizacion-producto/insert', data ,this.jwtService.getHttpOptionsWithToken(token)).pipe(
+          catchError((err) => this.handleError(err, ['Error', 'Fallas iniciando sesion, inténtelo nuevamente.']))
         );
     }
 

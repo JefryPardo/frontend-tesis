@@ -34,12 +34,20 @@ export class InicioProductoComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
+
+    const token: string | null = this.jwtService.getToken();
+
+    if(token == null || this.jwtService.isTokenExpired(token)) {
+      
+      this.router.navigate(['auth/login']);
+      return;
+    }
     
     this.route.params.subscribe(params => {
       
       const id = params['id'];
 
-      this.productoService.getProducto(id).subscribe(producto => {
+      this.productoService.getProducto(id,token).subscribe(producto => {
         
         let response:ResponseModel = producto.body;
         

@@ -19,8 +19,11 @@ export class CotizacionHubComponent {
 
   cotizacion: CotizacionModel = new CotizacionModel();
   cotizacion_producto: CotizacionProductoModel[] = [];
-  productos: ProductoModel[] = [];
+  productos_cotizados: ProductoModel[] = [];
+  todos_productos: ProductoModel[] = [];
+  producto_select:ProductoModel;
   visible: boolean = false;
+  select: boolean = false;
   isSearchFixed = false;
 
   productosPares  : ProductoModel[];
@@ -45,6 +48,39 @@ export class CotizacionHubComponent {
   }
 
   showDialogAddProducto() {
+
+    const token: string | null = this.jwtService.getToken();
+
+    if(token == null || this.jwtService.isTokenExpired(token)) {
+      
+      this.router.navigate(['auth/login']);
+      return;
+    }
+
+    this.productoService.getProductos(token).subscribe(
+          
+      (resp) => {
+
+        if(resp.status == 200){
+
+
+          let response: ResponseModel = resp.body;
+
+          if(response.code === '#SP') {
+
+            this.todos_productos = response.response;
+            this.select = false;
+          }
+        }
+      },
+
+      (error) => {
+
+        this.mensaje.mostrarAlertaError('Error', "Algo salio mal, reportalo por favor.");
+        this.router.navigate(['app']);
+      }
+    );
+
     this.visible = true;
   }
 
@@ -195,17 +231,19 @@ export class CotizacionHubComponent {
       return;
     }
 
-    await this.consultar();
+    await this.consultar(token);
     
   }
 
-  consultar() {
+  consultar(token:string) {
+
+    this.productos_cotizados = [];
 
     for (const cotizacionProducto of this.cotizacion_producto) {
       
       const idProducto = cotizacionProducto.id_producto;
       
-      this.productoService.getProducto(idProducto).subscribe(
+      this.productoService.getProducto(idProducto,token).subscribe(
           
         (resp) => {
 
@@ -216,12 +254,12 @@ export class CotizacionHubComponent {
             if(response.code === '#SP') {
 
               const producto:ProductoModel = response.response;
-              this.productos.push(producto);
-              this.filteredProductosPares   = this.productos.filter((_, index) => index % 2 === 0);
-              this.filteredProductosImpares = this.productos.filter((_, index) => index % 2 !== 0);
+              this.productos_cotizados.push(producto);
+              this.filteredProductosPares   = this.productos_cotizados.filter((_, index) => index % 2 === 0);
+              this.filteredProductosImpares = this.productos_cotizados.filter((_, index) => index % 2 !== 0);
               
-              this.productosPares   = this.productos.filter((_, index) => index % 2 === 0);
-              this.productosImpares = this.productos.filter((_, index) => index % 2 !== 0);
+              this.productosPares   = this.productos_cotizados.filter((_, index) => index % 2 === 0);
+              this.productosImpares = this.productos_cotizados.filter((_, index) => index % 2 !== 0);
             }
           }
         },
@@ -236,9 +274,99 @@ export class CotizacionHubComponent {
 
   }
 
+  onCardChanged(id_producto: string) {
 
+    const producto: ProductoModel | undefined = this.todos_productos.find((p: ProductoModel) => {
+      return p.id === id_producto;
+    });
 
+    if(producto) {
 
+      this.producto_select = producto;
+      this.select = true;
+    }
+
+  }
+  
+  onCrud(action: string) {
+
+    const actions:string[] = action.split(";");
+    if(actions[0] && actions[0] == 'insert') {
+      
+      const token: string | null = this.jwtService.getToken();
+
+      if(token == null || this.jwtService.isTokenExpired(token)) {
+        
+        this.router.navigate(['auth/login']);
+        return;
+      }
+
+      const id_producto:string = actions[1];
+      const id_cotizacion:string = this.cotizacion.id == undefined? '':this.cotizacion.id;
+
+      const producto: ProductoModel | undefined = this.productos_cotizados.find((p: ProductoModel) => {
+        return p.id === id_producto;
+      });
+  
+      if(producto) {
+  
+        this.mensaje.mostrarAlertaError('Producto','El producto ya se encuentra en la cotización.');
+        return;
+      }
+
+      const cotizacion_producto:CotizacionProductoModel = {
+
+        "id_producto": id_producto,
+        "id_cotizacion": id_cotizacion
+      }
+
+      this.cotizacionesProductoServices.createCotizacionProducto(token,cotizacion_producto).subscribe(
+                
+        (res) => {
+  
+          if (res.status == 200) {
+              
+            const body      : ResponseModel = res.body;
+            const code      : string = body.code;
+  
+            if(code === '#ICPS') {
+  
+              this.getCotizacion_Producto();
+              this.mensaje.mostrarAlertaSuccess('Producto','El producto se agrego correctamente.');
+              this.visible = false;
+            }
+  
+            return;
+  
+          } else if (res.status == 500) {
+  
+            const body  : ResponseModel = res.body;
+            const code  : string = body.code;
+            
+            if(code === '#feq') {
+              
+              this.mensaje.mostrarAlertaError('Error','Reporta el error por favor.');
+              return;
+            }
+            
+            if(code === '#NCE') {
+              
+              this.mensaje.mostrarAlertaError('Nombre','Nombre no disponible.');
+              return;
+            }
+          }
+  
+          this.mensaje.mostrarAlertaError('Error','Algo salio mal.');
+          return;
+        },
+        (err)=>{
+            
+          this.mensaje.mostrarAlertaError('Spinner off','');
+          return;
+        }
+      );
+    }
+  }
 
   @HostListener("window:scroll", [])
   onWindowScroll() {

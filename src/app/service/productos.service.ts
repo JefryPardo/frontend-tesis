@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { ToastService } from './toast.service';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { JwtService } from './jwt.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,11 +19,22 @@ export class ProductosService {
 
   producto        : ProductoModel;
 
-  constructor(private http : HttpClient, private mensaje: ToastService) { }
+  constructor(
+    private http : HttpClient, 
+    private mensaje: ToastService,
+    private jwtService: JwtService
+  ) { }
 
-  public getProducto(id: string) : Observable<any>{
+  public getProducto(id: string,token:string) : Observable<any>{
 
-    return this.http.get(environment.api + '/producto/find/'+id,httpOptions).pipe(
+    return this.http.get(environment.api + '/producto/find/'+id,this.jwtService.getHttpOptionsWithToken(token)).pipe(
+      catchError((err) => this.handleError(err, ['Error', 'Fallas consultando, inténtelo nuevamente.']))
+    );
+  }
+
+  public getProductos(token:string) : Observable<any>{
+
+    return this.http.get(environment.api + '/producto/all',this.jwtService.getHttpOptionsWithToken(token)).pipe(
       catchError((err) => this.handleError(err, ['Error', 'Fallas consultando, inténtelo nuevamente.']))
     );
   }

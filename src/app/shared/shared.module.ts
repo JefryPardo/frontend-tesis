@@ -28,6 +28,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { TituloComponent } from './components/titulo/titulo.component';
 import { OrderlistCotizacionesComponent } from './components/orderlist-cotizaciones/orderlist-cotizaciones.component';
 import { ProductoPublicoComponent } from './components/producto-publico/producto-publico.component';
+import { AgregarProductoComponent } from './components/agregar-producto/agregar-producto.component';
+import { ProductoCotizacionComponent } from './components/producto-cotizacion/producto-cotizacion.component';
 
 @NgModule({
   
@@ -48,7 +50,9 @@ import { ProductoPublicoComponent } from './components/producto-publico/producto
     CarruselComponent,
     TituloComponent,
     OrderlistCotizacionesComponent,
-    ProductoPublicoComponent
+    ProductoPublicoComponent,
+    AgregarProductoComponent,
+    ProductoCotizacionComponent
   ],
 
   exports: [
@@ -68,6 +72,8 @@ import { ProductoPublicoComponent } from './components/producto-publico/producto
     TituloComponent,
     OrderlistCotizacionesComponent,
     ProductoPublicoComponent,
+    AgregarProductoComponent,
+    ProductoCotizacionComponent
   ],
 
   imports: [

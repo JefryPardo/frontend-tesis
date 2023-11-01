@@ -2,17 +2,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ProductoModel } from 'src/app/models/model/producto.model';
 
 @Component({
-  selector: 'app-carta-grid',
-  templateUrl: './carta-grid.component.html',
-  styleUrls: ['./carta-grid.component.scss']
+  selector: 'app-agregar-producto',
+  templateUrl: './agregar-producto.component.html',
+  styleUrls: ['./agregar-producto.component.scss']
 })
-export class CartaGridComponent {
+export class AgregarProductoComponent {
 
+  @Input() productos: ProductoModel[];
   @Output() idChanged = new EventEmitter<string>();
-
-  @Input() banner: boolean = false;
-  @Input() productosPares: ProductoModel[];
-  @Input() productosImpares: ProductoModel[];
 
   onInputCardChange(producto: ProductoModel) {
 

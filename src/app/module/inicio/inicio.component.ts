@@ -1,8 +1,4 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
-import { ProductoModel } from 'src/app/models/model/producto.model';
-import { InicioService } from './inicio.service';
-import { ResponseModel } from 'src/app/models/model/response.model';
-import { ToastService } from 'src/app/service/toast.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-inicio',
