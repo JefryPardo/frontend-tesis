@@ -35,8 +35,16 @@
                 <p>{{producto.descripcion}}</p>
             </div>
 
-            <div class="col-12 flex flex-wrap my-4 pr-2">
+            <div class="col-12">
+
+                <div *ngIf="!delete" class="number-input py-4">
+                    <button class="decrement-button" (click)="cantidadMenos()">-</button>
+                    <input type="number" class="input-field" value="{{cantidad}}">
+                    <button class="increment-button" (click)="cantidadMas()">+</button>
+                </div>
+                    
                 <button 
+                    *ngIf="!delete"
                     pButton 
                     pRipple 
                     (click)="toggleInsert(producto)"
@@ -44,6 +52,18 @@
                     class="bg-black-alpha-90 col-12 w-full px-0" 
                     [style]="{'width':'100%'}" 
                 ></button>
+
+                <button
+                    *ngIf="delete"
+                    pButton 
+                    pRipple 
+                    (click)="toggleDelete(producto)"
+                    icon="pi pi-trash" 
+                    class="bg-black-alpha-90 col-12 w-full px-0" 
+                    [style]="{'width':'100%'}" 
+                ></button>
+                    
+
             </div>
         </div>
     </div>

@@ -31,6 +31,13 @@ export class CotizacionesProductoService {
         );
     }
 
+    public deleteCotizacionesProductoById(token:string, id_cotizacion_producto:string) : Observable<any> {
+
+        return this.http.delete(environment.api + `/cotizacion-producto/delete/${id_cotizacion_producto}`,this.jwtService.getHttpOptionsWithToken(token)).pipe(
+            catchError((err) => this.handleError(err, ['Error', 'Fallas consultando, inténtelo nuevamente.']))
+        );
+    }
+
     private handleError(error: HttpErrorResponse, clientMessage: string[]) {
         this.mensaje.mostrarAlertaError(clientMessage[0],clientMessage[1]);
         return throwError(clientMessage);

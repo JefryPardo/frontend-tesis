@@ -30,6 +30,8 @@ import { OrderlistCotizacionesComponent } from './components/orderlist-cotizacio
 import { ProductoPublicoComponent } from './components/producto-publico/producto-publico.component';
 import { AgregarProductoComponent } from './components/agregar-producto/agregar-producto.component';
 import { ProductoCotizacionComponent } from './components/producto-cotizacion/producto-cotizacion.component';
+import { InputNumberModule } from 'primeng/inputnumber';
+
 
 @NgModule({
   
@@ -86,7 +88,8 @@ import { ProductoCotizacionComponent } from './components/producto-cotizacion/pr
     OrderListModule,
     ButtonModule,
     DialogModule,
-    CalendarModule
+    CalendarModule,
+    InputNumberModule
 
   ],
   providers: [ProductosService]

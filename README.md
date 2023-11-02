@@ -23,3 +23,8 @@ npm install @types/zxcvbn --save-dev
 # jwt metodos get info token
 npm install @auth0/angular-jwt
 
+# generar y y descargar pdf
+npm install jspdf
+
+
+

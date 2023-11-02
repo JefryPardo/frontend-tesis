@@ -10,10 +10,28 @@ export class ProductoCotizacionComponent {
 
   @Input() producto: ProductoModel;
   @Input() favorito: boolean;
+  @Input() delete: boolean = false;
   @Output() dateChanged = new EventEmitter<string>();
+
+  cantidad: number = 1;
 
   constructor() {
     if(this.producto == undefined) this.producto = new ProductoModel();
+  }
+
+  cantidadMas() {
+    const disponible:string = this.producto.unidades;
+    const disponible_number = parseInt(disponible, 10);
+
+    if (disponible_number > this.cantidad) {
+      this.cantidad = this.cantidad + 1;
+    }
+  }
+  
+  cantidadMenos() {
+
+    if(1 == this.cantidad) return;
+    this.cantidad = this.cantidad-1;
   }
 
   toggleFavorite(favorito: boolean) {
@@ -24,7 +42,12 @@ export class ProductoCotizacionComponent {
   
   toggleInsert(producto: ProductoModel) {
 
-    this.dateChanged.emit(`insert;${producto.id}`);
+    this.dateChanged.emit(`insert;${producto.id};${this.cantidad}`);
+  }
+  
+  toggleDelete(producto: ProductoModel) {
+
+    this.dateChanged.emit(`delete;${producto.id}`);
   }
 
 }

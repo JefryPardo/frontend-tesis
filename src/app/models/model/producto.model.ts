@@ -8,7 +8,7 @@ export class ProductoModel {
     referencia_local    : string;
     precio              : number;
     ficha_tecnica       : string;
-    unidades            : number;
+    unidades            : string;
     estado              : string;
     precio_anterior     : number;
     id_categoria        : string;

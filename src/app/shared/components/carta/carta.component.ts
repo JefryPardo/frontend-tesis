@@ -29,13 +29,15 @@ export class CartaComponent {
     return Math.round(parteDecimal);
   }
 
-  evaluarUnidades(unidades:number) {
+  evaluarUnidades(unidades:string) {
 
-    if(unidades == null || unidades == undefined) return '0';
+    const disponible_number = parseInt(unidades, 10);
 
-    if(unidades>1000) return '1000+';
+    if(disponible_number == null || disponible_number == undefined) return '0';
+
+    if(disponible_number>1000) return '1000+';
     
-    return unidades.toString();
+    return disponible_number.toString();
   }
 
   validarPrecio( producto :ProductoModel ) {
