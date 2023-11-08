@@ -9,10 +9,10 @@ import { ProductoModel } from 'src/app/models/model/producto.model';
 export class AgregarProductoComponent {
 
   @Input() productos: ProductoModel[];
-  @Output() idChanged = new EventEmitter<string>();
+  @Output() productoChanged = new EventEmitter<ProductoModel>();
 
   onInputCardChange(producto: ProductoModel) {
 
-    this.idChanged.emit(producto.id);
+    this.productoChanged.emit(producto);
   }
 }

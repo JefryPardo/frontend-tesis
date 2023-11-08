@@ -18,13 +18,17 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TabViewModule } from 'primeng/tabview';
+import { GridProductoComponent } from './components/grid-producto/grid-producto.component';
+import { ProductoCotizadoComponent } from './components/producto/producto.component';
 
 @NgModule({
   declarations: [
     CotizacionComponent,
     ListaCotizacionesComponent,
     CreateCotizacionComponent,
-    CotizacionHubComponent
+    CotizacionHubComponent,
+    GridProductoComponent,
+    ProductoCotizadoComponent
   ],
   imports: [
     CommonModule,

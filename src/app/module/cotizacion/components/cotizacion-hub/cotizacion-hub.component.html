@@ -3,7 +3,7 @@
     <div class="grid m-2">
 
         <div class="col-8 py-3">
-            <P class="mb-0 font-bold">{{cotizacion.nombre}}</P>
+            <P class="mb-0 font-bold">{{ getnombreCotizacion() }}</P>
         </div>
         <div class="col-4 py-3">
             <div class="grid grid-nogutter">
@@ -31,16 +31,17 @@
 <div class="col-12 m-0 p-0">
     
     <div class="spacer"></div>
-    <app-search (searchChanged)="onSearchChanged($event)" id="search"></app-search>
+    <app-search (searchChanged)="filtro($event)" id="search"></app-search>
 </div>
    
-<p-scrollPanel [style]="{ width: '100%', height: '400px' }">
+<!-- listado productos cotizados -->
+<p-scrollPanel *ngIf="show_listado_productos_cotizados" [style]="{ width: '100%', height: '400px' }">
 
-    <app-carta-grid 
-        (idChanged)="onCardCotizado($event)"
+    <app-grid-producto 
+        (productoEmit)="onCardCotizado($event)"
         [productosPares]="filteredProductosPares"
         [productosImpares]="filteredProductosImpares"
-    ></app-carta-grid>
+    ></app-grid-producto>
 
 </p-scrollPanel>
 
@@ -50,7 +51,7 @@
             pButton 
             pRipple 
             label="Agregar producto"
-            (click)="showDialogAddProducto()"
+            (click)="consultarProductosCatalogo()"
             class="bg-black-alpha-90 col-12 w-full px-0" 
             [style]="{'width':'100%'}" 
         ></button>
@@ -72,8 +73,8 @@
 <br>
 
 <p-dialog 
-    header="{{cotizacion.nombre}}" 
-    [(visible)]="visible" 
+    header="{{ getnombreCotizacion() }}" 
+    [(visible)]="visible_listado_productos_catalogo" 
     [draggable]="false" 
     [resizable]="false"
     [modal]="true"
@@ -88,28 +89,18 @@
                 <app-search id="search"></app-search>
     
                 <app-agregar-producto 
-                    [productos]="todos_productos"
-                    (idChanged)="onCardChanged($event)"
+                    [productos]="listado_productos_catalogo"
+                    (productoChanged)="onProductoChanged($event)"
                 ></app-agregar-producto>
             </section>
 
             <section *ngIf="select">
                 <app-producto-cotizacion
-                    [producto]="producto_select"
-                    (dateChanged)="onCrud($event)"
+                    [producto]="resumen_producto_select"
+                    (dateChangedAdd)="onCrud($event)"
                 ></app-producto-cotizacion>
             </section>
             
-        </p-tabPanel>
-        <p-tabPanel header="Favoritos">
-            <p>
-                favoritos
-            </p>
-        </p-tabPanel>
-        <p-tabPanel header="Ganancia">
-            <p>
-                ganancias
-            </p>
         </p-tabPanel>
     </p-tabView>
 </p-dialog>
@@ -127,9 +118,9 @@
 
         <app-producto-cotizacion
             *ngIf="visible_producto"
-            [producto]="producto_select"
+            [producto]="resumen_producto_select"
             [delete]="true"
-            (dateChanged)="onCrud($event)"
+            (dateChangedCrud)="onCrud($event)"
         ></app-producto-cotizacion>
         
     </div>

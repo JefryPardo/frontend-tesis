@@ -17,13 +17,6 @@ export class CotizacionesProductoService {
         private jwtService: JwtService    
     ) {}
 
-    public getCotizacionesProductoList(token:string, id_cotizacion:string) : Observable<any> {
-
-        return this.http.get(environment.api + `/cotizacion-producto/all/${id_cotizacion}`,this.jwtService.getHttpOptionsWithToken(token)).pipe(
-            catchError((err) => this.handleError(err, ['Error', 'Fallas consultando, inténtelo nuevamente.']))
-        );
-    }
-    
     public createCotizacionProducto(token:string, data: CotizacionProductoModel) : Observable<any>{
 
         return this.http.post(environment.api + '/cotizacion-producto/insert', data ,this.jwtService.getHttpOptionsWithToken(token)).pipe(
@@ -31,9 +24,9 @@ export class CotizacionesProductoService {
         );
     }
 
-    public deleteCotizacionesProductoById(token:string, id_cotizacion_producto:string) : Observable<any> {
+    public deleteCotizacionesProductoById(token:string, id_cotizacion:string,id_producto:string) : Observable<any> {
 
-        return this.http.delete(environment.api + `/cotizacion-producto/delete/${id_cotizacion_producto}`,this.jwtService.getHttpOptionsWithToken(token)).pipe(
+        return this.http.delete(environment.api + `/cotizacion-producto/delete/${id_cotizacion}/${id_producto}`,this.jwtService.getHttpOptionsWithToken(token)).pipe(
             catchError((err) => this.handleError(err, ['Error', 'Fallas consultando, inténtelo nuevamente.']))
         );
     }

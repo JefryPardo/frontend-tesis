@@ -1,13 +1,15 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CotizacionProductoModel } from 'src/app/models/model/cotizacion-producto.model';
-import { CotizacionModel } from 'src/app/models/model/cotizacion.model';
 import { ProductoModel } from 'src/app/models/model/producto.model';
 import { ResponseModel } from 'src/app/models/model/response.model';
+import { ResumenProductoModel } from 'src/app/models/model/resumen-producto.model';
+import { ResumenModel } from 'src/app/models/model/resumen.model';
 import { CotizacionesProductoService } from 'src/app/service/cotizaciones.producto.service';
 import { CotizacionesService } from 'src/app/service/cotizaciones.service';
 import { JwtService } from 'src/app/service/jwt.service';
 import { ProductosService } from 'src/app/service/productos.service';
+import { ResumenService } from 'src/app/service/resumen.service';
 import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
@@ -17,23 +19,27 @@ import { ToastService } from 'src/app/service/toast.service';
 })
 export class CotizacionHubComponent {
 
-  cotizacion: CotizacionModel = new CotizacionModel();
-  cotizacion_producto: CotizacionProductoModel[] = [];
-  productos_cotizados: ProductoModel[] = [];
-  todos_productos: ProductoModel[] = [];
-  producto_select:ProductoModel;
-  visible: boolean = false;
+  resumen: ResumenModel = new ResumenModel();
+  resumen_producto_select: ProductoModel;
+
+  visible_listado_productos_catalogo: boolean = false;
+
+  listado_productos_catalogo: ProductoModel[] = [];
+
   visible_producto: boolean = false;
+  show_listado_productos_cotizados: boolean = false;
   select: boolean = false;
   isSearchFixed = false;
 
-  productosPares  : ProductoModel[];
-  productosImpares: ProductoModel[];
 
-  filteredProductosImpares  : ProductoModel[];
-  filteredProductosPares: ProductoModel[];
+  productosPares  : ResumenProductoModel[];
+  productosImpares: ResumenProductoModel[];
+  filteredProductosImpares  : ResumenProductoModel[] = [];
+  filteredProductosPares    : ResumenProductoModel[] = [];
+
 
   constructor(
+    public resumenServices: ResumenService,
     public cotizacionesServices: CotizacionesService,
     public cotizacionesProductoServices: CotizacionesProductoService,
     public productoService: ProductosService,
@@ -44,48 +50,10 @@ export class CotizacionHubComponent {
     private el: ElementRef
   ) {
 
-    this.getCotizacion();
-    
+    this.getResumen();
   }
 
-  showDialogAddProducto() {
-
-    const token: string | null = this.jwtService.getToken();
-
-    if(token == null || this.jwtService.isTokenExpired(token)) {
-      
-      this.router.navigate(['auth/login']);
-      return;
-    }
-
-    this.productoService.getProductos(token).subscribe(
-          
-      (resp) => {
-
-        if(resp.status == 200){
-
-
-          let response: ResponseModel = resp.body;
-
-          if(response.code === '#SP') {
-
-            this.todos_productos = response.response;
-            this.select = false;
-          }
-        }
-      },
-
-      (error) => {
-
-        this.mensaje.mostrarAlertaError('Error', "Algo salio mal, reportalo por favor.");
-        this.router.navigate(['app']);
-      }
-    );
-
-    this.visible = true;
-  }
-
-  getCotizacion() {
+  getResumen() {
 
     this.route.params.subscribe(params => {
       
@@ -97,26 +65,35 @@ export class CotizacionHubComponent {
         this.router.navigate(['auth/login']);
         return;
       }
+
+      console.log(id);
       
-      const decode:any = this.jwtService.decodeToken(token);
-
-      const roles       :string[] = decode.roles;
-      const id_usuario  :string   = decode.sub;
-
-      this.cotizacionesServices.getCotizacion(token,id).subscribe(
+      this.resumenServices.getResumen(token,id).subscribe(
                 
         (res) => {
+          console.log(res);
 
           if (res.status == 200) {
               
             const body      : ResponseModel = res.body;
             const code      : string = body.code;
-            const response  : CotizacionModel = body.response;
-  
-            if(code === '#GCS') {
-  
-              this.cotizacion = response;
-              this.getCotizacion_Producto();
+            
+            if(code === '#SR') {
+              
+              const response  : ResumenModel = body.response;
+              this.resumen = response;
+              this.filteredProductosPares   = this.resumen.resumen_producto.filter((_, index) => index % 2 === 0);
+              this.filteredProductosImpares = this.resumen.resumen_producto.filter((_, index) => index % 2 !== 0);
+              this.productosPares   = this.resumen.resumen_producto.filter((_, index) => index % 2 === 0);
+              this.productosImpares = this.resumen.resumen_producto.filter((_, index) => index % 2 !== 0);
+              console.log(this.resumen);
+              console.log(this.filteredProductosPares);
+              console.log(this.filteredProductosImpares);
+              console.log(this.productosPares);
+              console.log(this.productosImpares);
+              
+              this.show_listado_productos_cotizados = true;
+              console.log(this.show_listado_productos_cotizados);
             }
   
             return;
@@ -144,16 +121,16 @@ export class CotizacionHubComponent {
         },
         (err)=>{
             
-          this.mensaje.mostrarAlertaError('Spinner off','');
+          this.mensaje.mostrarAlertaError('error',err);
           return;
         }
       );
     });
   }
 
-  getCotizacion_Producto() {
 
-    this.cotizacion_producto = [];
+
+  consultarProductosCatalogo() {
 
     const token: string | null = this.jwtService.getToken();
 
@@ -163,161 +140,63 @@ export class CotizacionHubComponent {
       return;
     }
 
-    this.cotizacionesProductoServices.getCotizacionesProductoList(token,this.cotizacion.id == undefined? '':this.cotizacion.id).subscribe(
-                
-      (res) => {
-
-        console.log(res);
-
-        if (res.status == 200) {
-            
-          const body      : ResponseModel = res.body;
-          const code      : string = body.code;
-          const response  : CotizacionProductoModel[] = body.response;
-
-          if(code === '#GCPS') {
-
-            this.cotizacion_producto = response;
-
-            if(this.cotizacion_producto.length < 1) {
-
-              this.productos_cotizados = [];
-              this.filteredProductosPares =[];
-              this.filteredProductosImpares =[];
-              this.productosPares =[];
-              this.productosImpares =[];
-              return;
-            }
-
-            this.getProductos();
-          }
-
-          return;
-
-        } else if (res.status == 500) {
-
-          const body  : ResponseModel = res.body;
-          const code  : string = body.code;
+    this.productoService.getProductos(token).subscribe(
           
-          if(code === '#feq') {
-            
-            this.mensaje.mostrarAlertaError('Error','Reporta el error por favor.');
-            return;
-          }
-          
-          if(code === '#NCE') {
-            
-            this.mensaje.mostrarAlertaError('Nombre','Nombre no disponible.');
-            return;
+      (resp) => {
+
+        if(resp.status == 200){
+
+
+          let response: ResponseModel = resp.body;
+
+          if(response.code === '#SP') {
+
+            this.listado_productos_catalogo = response.response;
+            this.select = false;
           }
         }
-
-        this.mensaje.mostrarAlertaError('Error','Algo salio mal.');
-        return;
       },
-      (err)=>{
-          
-        this.mensaje.mostrarAlertaError('Spinner off','');
-        return;
+
+      (error) => {
+
+        this.mensaje.mostrarAlertaError('Error', "Algo salio mal, reportalo por favor.");
+        this.router.navigate(['app']);
       }
     );
+
+    this.visible_listado_productos_catalogo = true;
   }
 
-  onSearchChanged(nombreProducto: string) {
+  filtro(filtro: string) {
 
-    this.filteredProductosPares = this.productosPares.filter((producto) =>
-      producto.nombre.toLowerCase().includes(nombreProducto.toLowerCase())
-    );
+    // this.filteredProductosPares = this.productosPares.filter((data) =>
+    //     data.producto.nombre.toLowerCase().includes(filtro.toLowerCase())
+    // );
 
-    this.filteredProductosImpares = this.productosImpares.filter((producto) =>
-      producto.nombre.toLowerCase().includes(nombreProducto.toLowerCase())
-    );
+    // this.filteredProductosImpares = this.productosImpares.filter((data) =>
+    //   data.producto.nombre.toLowerCase().includes(filtro.toLowerCase())
+    // );
   }
 
-  async getProductos() {
-
-    const token: string | null = this.jwtService.getToken();
-
-    if(token == null || this.jwtService.isTokenExpired(token)) {
-      
-      this.router.navigate(['auth/login']);
-      return;
-    }
-
-    await this.consultar(token);
+  onCardCotizado(resumen_producto: ResumenProductoModel) {
     
-  }
-
-  consultar(token:string) {
-
-    this.productos_cotizados = [];
-
-    for (const cotizacionProducto of this.cotizacion_producto) {
-      
-      const idProducto = cotizacionProducto.id_producto;
-      
-      this.productoService.getProducto(idProducto,token).subscribe(
-          
-        (resp) => {
-
-          if(resp.status == 200){
-
-            let response: ResponseModel = resp.body;
-
-            if(response.code === '#SP') {
-
-              console.log(this.productos_cotizados);
-              const producto:ProductoModel = response.response;
-              this.productos_cotizados.push(producto);
-              this.filteredProductosPares   = this.productos_cotizados.filter((_, index) => index % 2 === 0);
-              this.filteredProductosImpares = this.productos_cotizados.filter((_, index) => index % 2 !== 0);
-              
-              this.productosPares   = this.productos_cotizados.filter((_, index) => index % 2 === 0);
-              this.productosImpares = this.productos_cotizados.filter((_, index) => index % 2 !== 0);
-            }
-          }
-        },
-
-        (error) => {
-
-          this.mensaje.mostrarAlertaError('Error', "Algo salio mal, reportalo por favor.");
-          this.router.navigate(['app']);
-        }
-      );
-    }
-
-  }
-
-  onCardCotizado(id_producto: string) {
-    
-    const producto: ProductoModel | undefined = this.productos_cotizados.find((p: ProductoModel) => {
-      return p.id === id_producto;
-    });
-
-    if(producto == undefined) return;
-    this.producto_select = producto;
+    this.resumen_producto_select = resumen_producto.producto;
     this.visible_producto = true;
   }
 
-  onCardChanged(id_producto: string) {
+  onProductoChanged(producto: ProductoModel) {
 
-    this.producto_select = new ProductoModel();
-
-    const producto: ProductoModel | undefined = this.todos_productos.find((p: ProductoModel) => {
-      return p.id === id_producto;
-    });
+    this.resumen_producto_select = new ProductoModel();
 
     if(producto) {
 
-      this.producto_select = producto;
+      this.resumen_producto_select = producto;
       this.select = true;
     }
 
   }
   
   onCrud(action: string) {
-
-    console.log(action);
 
     const actions:string[] = action.split(";");
     if(actions[0] && actions[0] == 'insert') {
@@ -332,10 +211,10 @@ export class CotizacionHubComponent {
 
       const id_producto:string    = actions[1];
       const cantidad:string       = actions[2];
-      const id_cotizacion:string  = this.cotizacion.id == undefined? '':this.cotizacion.id;
+      const id_cotizacion:string  = this.resumen.cotizacion.id == undefined? '':this.resumen.cotizacion.id;
 
-      const producto: ProductoModel | undefined = this.productos_cotizados.find((p: ProductoModel) => {
-        return p.id === id_producto;
+      const producto: ResumenProductoModel | undefined = this.resumen.resumen_producto.find((data: ResumenProductoModel) => {
+        return data.producto.id === id_producto;
       });
   
       if(producto) {
@@ -362,9 +241,9 @@ export class CotizacionHubComponent {
   
             if(code === '#ICPS') {
   
-              this.getCotizacion_Producto();
+              this.getResumen();
               this.mensaje.mostrarAlertaSuccess('Producto','El producto se agrego correctamente.');
-              this.visible = false;
+              this.visible_listado_productos_catalogo = false;
             }
   
             return;
@@ -409,18 +288,9 @@ export class CotizacionHubComponent {
       }
 
       const id_producto:string = actions[1];
+      const id_cotizacion:string  = this.resumen.cotizacion.id == undefined? '':this.resumen.cotizacion.id;
 
-      const cotizacion_producto: CotizacionProductoModel | undefined = this.cotizacion_producto.find((c: CotizacionProductoModel) => {
-        return c.id_producto === id_producto;
-      });
-
-      if(cotizacion_producto?.id == undefined) {
-
-        this.mensaje.mostrarAlertaError('Error','Reporta el error por favor.');
-        return;
-      }
-
-      this.cotizacionesProductoServices.deleteCotizacionesProductoById(token,cotizacion_producto.id).subscribe(
+      this.cotizacionesProductoServices.deleteCotizacionesProductoById(token,id_cotizacion,id_producto).subscribe(
                 
         (res) => {
 
@@ -431,7 +301,7 @@ export class CotizacionHubComponent {
   
             if(code === '#DCPS') {
   
-              this.getCotizacion_Producto();
+              this.getResumen();
               this.mensaje.mostrarAlertaSuccess('Producto','El producto se elimino correctamente.');
               this.visible_producto = false;
             }
@@ -471,12 +341,12 @@ export class CotizacionHubComponent {
 
   generarCotizacion() {
 
-    if(this.cotizacion_producto.length == 0) {
-      this.mensaje.mostrarAlertaError('Producto', 'Agrega un producto a la cotización');
-      return;
-    }
+    // if(this.cotizacion_producto.length == 0) {
+    //   this.mensaje.mostrarAlertaError('Producto', 'Agrega un producto a la cotización');
+    //   return;
+    // }
 
-    console.log(this.cotizacion_producto);
+    // console.log(this.cotizacion_producto);
   }
 
   @HostListener("window:scroll", [])
@@ -496,5 +366,12 @@ export class CotizacionHubComponent {
       spacerElement.style.height = '0';
       this.isSearchFixed = false;
     }
+  }
+
+  getnombreCotizacion() {
+    
+    if(this.resumen.cotizacion == undefined) return '';
+
+    return this.resumen.cotizacion.nombre;
   }
 }

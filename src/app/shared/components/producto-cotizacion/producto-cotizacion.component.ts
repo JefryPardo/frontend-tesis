@@ -8,16 +8,36 @@ import { ProductoModel } from 'src/app/models/model/producto.model';
 })
 export class ProductoCotizacionComponent {
 
-  @Input() producto: ProductoModel;
-  @Input() favorito: boolean;
-  @Input() delete: boolean = false;
-  @Output() dateChanged = new EventEmitter<string>();
+  @Input() producto : ProductoModel;
+  @Input() favorito : boolean;
+  @Input() delete   : boolean = false;
+
+  @Output() dateChangedCrud = new EventEmitter<string>();
+  @Output() dateChangedAdd = new EventEmitter<string>();
 
   cantidad: number = 1;
 
   constructor() {
     if(this.producto == undefined) this.producto = new ProductoModel();
   }
+
+  toggleFavorite(favorito: boolean) {
+
+    this.favorito = !favorito;
+    this.dateChangedCrud.emit(`favorito;${this.favorito}`);
+  }
+  
+  toggleInsert(producto: ProductoModel) {
+
+    this.dateChangedAdd.emit(`insert;${producto.id};${this.cantidad}`);
+  }
+  
+  toggleDelete(producto: ProductoModel) {
+
+    this.dateChangedCrud.emit(`delete;${producto.id}`);
+  }
+
+
 
   cantidadMas() {
     const disponible:string = this.producto.unidades;
@@ -32,22 +52,6 @@ export class ProductoCotizacionComponent {
 
     if(1 == this.cantidad) return;
     this.cantidad = this.cantidad-1;
-  }
-
-  toggleFavorite(favorito: boolean) {
-
-    this.favorito = !favorito;
-    this.dateChanged.emit(`favorito;${this.favorito}`);
-  }
-  
-  toggleInsert(producto: ProductoModel) {
-
-    this.dateChanged.emit(`insert;${producto.id};${this.cantidad}`);
-  }
-  
-  toggleDelete(producto: ProductoModel) {
-
-    this.dateChanged.emit(`delete;${producto.id}`);
   }
 
 }
