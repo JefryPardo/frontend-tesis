@@ -96,13 +96,9 @@ export class RegisterComponent {
       "estado":             this.formRegistro.value.estado
     }
 
-    console.log(usuario);
-
     this.authService.register(usuario).subscribe(
       
       (res) => {
-
-        console.log(res);
 
         if (res.status == 200) {
 

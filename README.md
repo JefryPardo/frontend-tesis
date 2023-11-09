@@ -24,7 +24,8 @@ npm install @types/zxcvbn --save-dev
 npm install @auth0/angular-jwt
 
 # generar y y descargar pdf
-npm install jspdf
+npm install jspdf@1.5.3 html2canvas
+npm install @types/jspdf @types/html2canvas -D
 
 
 

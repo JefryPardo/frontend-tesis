@@ -1,0 +1,163 @@
+<section id="elemento-a-mostrar" id="htmlData" *ngIf="!show_mano_de_obra">
+
+    <div class="mx-3">
+
+        <div class="grid grid-nogutter mt-3 mb-0 border-bottom-2 border-black-alpha-90 surface-overlay">
+            <div class="col-12 flex flex-wrap align-items-center justify-content-end">referencia: <span class="numero pl-2 negrilla">{{numero_cotizacion}}</span></div>
+        </div>
+        
+        <div class="grid grid-nogutter mt-1">
+            <div class="col-12 flex flex-wrap align-items-center justify-content-end tamanio">Generado: <span class="negrilla">{{obtenerFechaConFormato()}}</span></div>
+        </div>
+        
+        <br>
+        
+        <div class="grid grid-nogutter mt-1">
+            <div class="col-12 flex flex-wrap align-items-center justify-content-start tamanio"><span class="negrilla tamanioTitulo">{{this.resumen.cotizacion.nombre}}</span></div>
+        </div>
+    
+        <br>
+    
+        <div class="grid grid-nogutter mt-1">
+            <div class="col-12 flex flex-wrap align-items-center justify-content-start tamanio"><span>{{descripcion}}</span></div>
+        </div>
+    
+        <br>
+    
+        <ng-container *ngFor="let tipo of tiposDeProducto">
+
+            <div class="grid grid-nogutter my-1">
+                <div class="col-12 flex flex-wrap align-items-center justify-content-start tamanio"><span class="negrilla tituloTabla">{{tipo}}</span></div>
+            </div>
+        
+            <table class="globalBorde">
+                <tr>
+                    <th class="p-1 borde tamanioHeader" style="width:2%">Cant.</th>
+                    <th class="p-1 borde tamanioH" style="width:23%">Nombre.</th>
+                    <th class="p-1 borde tamanioH" style="width:25%">Ref.</th>
+                    <th class="p-1 borde tamanioH" style="width:25%">Vl. Unit.</th>
+                    <th class="p-1 borde tamanioH" style="width:25%">Vl. Tot.</th>
+                </tr>
+    
+                <tr *ngFor="let product of resumen.resumen_producto">
+                    <ng-container *ngIf="product.producto.tipo === tipo">
+                        <td class="borde" style="text-align: center;">{{ product.cantidad }}</td>
+                        <td class="borde p-1">{{ product.producto.nombre }}</td>
+                        <td class="borde p-1" style="text-align: center;">{{ product.producto.referencia }}</td>
+                        <td class="borde p-1" style="text-align: center;">{{ product.producto.precio | numberFormat }} </td>
+                        <td class="borde p-1" style="text-align: center;">{{ calcularTotal(product.cantidad, product.producto.precio) | numberFormat }}</td>
+                    </ng-container>
+                </tr>
+    
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="borde p-1" style="text-align: end;">subtotal: </td>
+                    <td class="borde p-1" style="text-align: center;">{{calcularTotalPorTipo(tipo) | numberFormat}}</td>
+                </tr>
+            </table>
+        </ng-container>
+
+        <br>
+
+        <div class="grid grid-nogutter my-1">
+            <div class="col-12 flex flex-wrap align-items-center justify-content-start tamanio"><span class="negrilla tituloTabla">Mano de obra</span></div>
+        </div>
+
+        <table class="globalBorde">
+            <tr>
+                <th class="p-1 borde tamanioH" style="width:50%">Detalle.</th>
+                <th class="p-1 borde tamanioH" style="width:50%">Vl. Tot.</th>
+            </tr>
+            
+            <tr>
+                <td class="borde p-1" style="text-align: center;">{{ evaluarDetalleManoDeObra() }}</td>
+                <td class="borde p-1" style="text-align: center;">{{ evaluarValueManoDeObra() | numberFormat }} </td>
+            </tr>
+        </table>
+        
+        <br>
+
+        <div class="grid grid-nogutter my-1">
+            <div class="col-12 flex flex-wrap align-items-center justify-content-start tamanio"><span class="negrilla tituloTabla">Resumen</span></div>
+        </div>
+
+        <table class="globalBorde">
+            <tr>
+                <th class="p-1 borde tamanioH" style="width:50%">Detalle.</th>
+                <th class="p-1 borde tamanioH" style="width:50%">Vl. Tot.</th>
+            </tr>
+            
+            <tr *ngFor="let tipo of tiposDeProducto">
+                <td class="borde p-1" style="text-align: center;">{{ tipo }}</td>
+                <td class="borde p-1" style="text-align: center;">{{calcularTotalPorTipo(tipo) | numberFormat}}</td>
+            </tr>
+
+            <tr>
+                <td class="borde p-1" style="text-align: center;">obra de mano</td>
+                <td class="borde p-1" style="text-align: center;">{{ evaluarValueManoDeObra() | numberFormat }} </td>
+            </tr>
+
+            <tr>
+                <td class="borde p-1" style="text-align: end;">Total: </td>
+                <td class="borde p-1" style="text-align: center;">{{calcularTotalCotizacion() | numberFormat}}</td>
+            </tr>
+        </table>
+
+    </div>
+
+</section>
+
+<p-dialog 
+    header="Mano de obra"
+    [(visible)]="show_mano_de_obra"
+    [draggable]="false" 
+    [resizable]="false"
+    [modal]="true" 
+    [style]="{width: '90%'}"
+>
+    <div class="grid grid-nogutter">
+
+        <div class="col-12 mb-2">
+            <span class="tamanio">Ingrese el valor de la mano de obra.</span>
+        </div>
+        
+        <div class="col-12 mb-3">
+            <input type="number" [(ngModel)]="value_mano_de_obra" class="custom-input" (input)="onInputChange($event)" (focus)="clearInput($event)">
+        </div>
+        
+        <div class="col-12 mb-3">
+            <input type="text" [(ngModel)]="detalle_mano_de_obra" class="custom-input" (focus)="clearInput($event)">
+        </div>
+
+        <div class="col-12">
+            <button 
+                pButton 
+                pRipple 
+                (click)="setManoDeObra()"
+                label="Agregar"
+                class="custom-button" 
+                [style]="{'width':'100%'}" 
+            ></button>                            
+        </div>
+    </div>
+</p-dialog>
+
+<div [ngClass]="{'ocultar': !principalService.navbar_show}" class="grid grid-nogutter mt-4 mb-8" *ngIf="!show_mano_de_obra">
+    <div class="col-12 px-1">
+        <button 
+            pButton 
+            pRipple 
+            label="Descargar cotización"
+            (click)="imprimirControlP()"
+            class="bg-black-alpha-90 col-12 w-full px-0" 
+            [style]="{'width':'100%'}" 
+        ></button>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>

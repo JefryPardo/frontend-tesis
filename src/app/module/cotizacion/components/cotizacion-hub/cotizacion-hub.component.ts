@@ -27,6 +27,7 @@ export class CotizacionHubComponent {
   listado_productos_catalogo: ProductoModel[] = [];
 
   visible_producto: boolean = false;
+  pdf_show: boolean = false;
   show_listado_productos_cotizados: boolean = false;
   select: boolean = false;
   isSearchFixed = false;
@@ -50,6 +51,7 @@ export class CotizacionHubComponent {
     private el: ElementRef
   ) {
 
+    this.pdf_show = false;
     this.getResumen();
   }
 
@@ -66,13 +68,9 @@ export class CotizacionHubComponent {
         return;
       }
 
-      console.log(id);
-      
       this.resumenServices.getResumen(token,id).subscribe(
                 
         (res) => {
-          console.log(res);
-
           if (res.status == 200) {
               
             const body      : ResponseModel = res.body;
@@ -86,14 +84,7 @@ export class CotizacionHubComponent {
               this.filteredProductosImpares = this.resumen.resumen_producto.filter((_, index) => index % 2 !== 0);
               this.productosPares   = this.resumen.resumen_producto.filter((_, index) => index % 2 === 0);
               this.productosImpares = this.resumen.resumen_producto.filter((_, index) => index % 2 !== 0);
-              console.log(this.resumen);
-              console.log(this.filteredProductosPares);
-              console.log(this.filteredProductosImpares);
-              console.log(this.productosPares);
-              console.log(this.productosImpares);
-              
               this.show_listado_productos_cotizados = true;
-              console.log(this.show_listado_productos_cotizados);
             }
   
             return;
@@ -339,14 +330,9 @@ export class CotizacionHubComponent {
 
   }
 
-  generarCotizacion() {
+  generarPdf() {
 
-    // if(this.cotizacion_producto.length == 0) {
-    //   this.mensaje.mostrarAlertaError('Producto', 'Agrega un producto a la cotización');
-    //   return;
-    // }
-
-    // console.log(this.cotizacion_producto);
+    this.pdf_show = true;
   }
 
   @HostListener("window:scroll", [])
@@ -355,7 +341,6 @@ export class CotizacionHubComponent {
     const spacerElement = this.el.nativeElement.querySelector('.spacer');
     const bannerHeight = this.el.nativeElement.querySelector('section').offsetHeight;
     const scrollPosition = window.pageYOffset;
-    const spacerHeight = spacerElement.clientHeight;
 
     if (scrollPosition >= bannerHeight) {
       searchElement.classList.add('fixed-search');

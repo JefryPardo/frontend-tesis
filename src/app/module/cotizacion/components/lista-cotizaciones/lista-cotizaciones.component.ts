@@ -70,8 +70,6 @@ export class ListaCotizacionesComponent {
             return;
           }
         }
-
-          console.log(res);
           this.mensaje.mostrarAlertaError('Error','Algo salio mal.');
           return;
         },

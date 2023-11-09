@@ -1,2 +1,2 @@
 <router-outlet></router-outlet>
-<app-navbar-movil class="fixed-bottom"></app-navbar-movil>
+<app-navbar-movil [ngClass]="{'ocultar': !principalService.navbar_show}" class="fixed-bottom"></app-navbar-movil>

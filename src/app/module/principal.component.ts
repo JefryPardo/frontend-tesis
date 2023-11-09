@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PrincipalService } from './principal.service';
 
 @Component({
   selector: 'app-principal',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class PrincipalComponent {
 
+  constructor(public principalService: PrincipalService) {}
 }

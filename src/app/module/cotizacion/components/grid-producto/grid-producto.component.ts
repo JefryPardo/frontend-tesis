@@ -14,9 +14,6 @@ export class GridProductoComponent {
   @Input()  productosImpares : ResumenProductoModel[];
 
   constructor() {
-
-    console.log(this.productosPares);
-    console.log(this.productosImpares);
   }
 
   onInputCardChange(producto: ResumenProductoModel) {

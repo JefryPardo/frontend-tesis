@@ -11,7 +11,7 @@ export class ProductoModel {
     unidades            : string;
     estado              : string;
     precio_anterior     : number;
-    id_categoria        : string;
-    id_tipo             : string;
-    id_marca            : string;
+    categoria        : string;
+    tipo             : string;
+    marca            : string;
 }

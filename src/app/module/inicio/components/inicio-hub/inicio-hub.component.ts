@@ -76,7 +76,6 @@ export class InicioHubComponent {
 
           this.productos = response;
 
-          console.log(this.productos);
           this.filteredProductosPares   = this.productos.filter((_, index) => index % 2 === 0);
           this.filteredProductosImpares = this.productos.filter((_, index) => index % 2 !== 0);
           

@@ -20,6 +20,9 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TabViewModule } from 'primeng/tabview';
 import { GridProductoComponent } from './components/grid-producto/grid-producto.component';
 import { ProductoCotizadoComponent } from './components/producto/producto.component';
+import { PdfComponent } from './components/pdf/pdf.component';
+
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { ProductoCotizadoComponent } from './components/producto/producto.compon
     CreateCotizacionComponent,
     CotizacionHubComponent,
     GridProductoComponent,
-    ProductoCotizadoComponent
+    ProductoCotizadoComponent,
+    PdfComponent
   ],
   imports: [
     CommonModule,
@@ -44,6 +48,7 @@ import { ProductoCotizadoComponent } from './components/producto/producto.compon
     InputTextModule,
     ScrollPanelModule,
     TabViewModule,
+    TableModule,
   ],
 
   providers: [

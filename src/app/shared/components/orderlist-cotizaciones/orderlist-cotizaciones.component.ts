@@ -21,7 +21,5 @@ export class OrderlistCotizacionesComponent {
   }
 
   menu() {
-
-    console.log('menu');
   }
 }
