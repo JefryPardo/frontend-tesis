@@ -5,6 +5,7 @@ import { JwtService } from "./jwt.service";
 import { Observable, catchError, throwError } from "rxjs";
 import { environment } from "src/environments/environment";
 import { CotizacionProductoModel } from "../models/model/cotizacion-producto.model";
+import { MailModel } from "../models/model/mail.model";
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +24,7 @@ export class CotizacionesProductoService {
           catchError((err) => this.handleError(err, ['Error', 'Fallas iniciando sesion, inténtelo nuevamente.']))
         );
     }
-
+    
     public deleteCotizacionesProductoById(token:string, id_cotizacion:string,id_producto:string) : Observable<any> {
 
         return this.http.delete(environment.api + `/cotizacion-producto/delete/${id_cotizacion}/${id_producto}`,this.jwtService.getHttpOptionsWithToken(token)).pipe(

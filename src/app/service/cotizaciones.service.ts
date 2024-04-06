@@ -5,6 +5,7 @@ import { JwtService } from './jwt.service';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CotizacionModel } from '../models/model/cotizacion.model';
+import { MailModel } from '../models/model/mail.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,17 @@ export class CotizacionesService {
 
     return this.http.get(environment.api + `/cotizacion/find/${id}`,this.jwtService.getHttpOptionsWithToken(token)).pipe(
       catchError((err) => this.handleError(err, ['Error', 'Fallas consultando, inténtelo nuevamente.']))
+    );
+  }
+
+  public enviarEmail(token:string, data: MailModel) : Observable<any>{
+
+    console.log(token);
+    console.log(data);
+    console.log(environment.api + '/mail/enviar-correo');
+
+    return this.http.post(environment.api + '/mail/enviar-correo', data ,this.jwtService.getHttpOptionsWithToken(token)).pipe(
+      catchError((err) => this.handleError(err, ['Error', 'Fallas iniciando sesion, inténtelo nuevamente.']))
     );
   }
 

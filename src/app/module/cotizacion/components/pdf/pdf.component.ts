@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ResumenModel } from 'src/app/models/model/resumen.model';
 
 //@ts-ignore
@@ -6,6 +6,9 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ProductoModel } from 'src/app/models/model/producto.model';
 import { PrincipalService } from 'src/app/module/principal.service';
+import { CotizacionesService } from 'src/app/service/cotizaciones.service';
+import { MailModel } from 'src/app/models/model/mail.model';
+import { JwtService } from 'src/app/service/jwt.service';
 
 @Component({
   selector: 'app-pdf',
@@ -13,6 +16,8 @@ import { PrincipalService } from 'src/app/module/principal.service';
   styleUrls: ['./pdf.component.scss']
 })
 export class PdfComponent implements OnInit {
+
+  @ViewChild('htmlDataMail') htmlDataRef: ElementRef;
 
   @Input() resumen: ResumenModel;
   numero_cotizacion:string = '0';
@@ -25,7 +30,11 @@ export class PdfComponent implements OnInit {
   tiposDeProducto: string[] = [];
   descripcion:string = 'Esta cotización es para el cambio de camaras en el area de juegos infantiles en el local cristaleria la 40.';
 
-  constructor(public principalService: PrincipalService) {}
+  constructor(
+    public principalService: PrincipalService,
+    public cotizaciones: CotizacionesService,
+    private jwtService: JwtService
+  ) {}
   
   ngOnInit(): void {
     
@@ -172,14 +181,39 @@ export class PdfComponent implements OnInit {
   imprimirControlP() {
 
     this.principalService.navbar_show = false;
+
     
     setTimeout(() => {
       window.print();
     }, 500);
-
+    
     window.addEventListener('afterprint', () => {
       this.principalService.navbar_show = true;
     });
+  }
+  
+  enviarcorreo() {
+    
+    const htmlContent = this.htmlDataRef.nativeElement.innerHTML;
+    console.log(htmlContent);
+
+    const mail = new MailModel();
+    mail.html = htmlContent;
+
+    const token: string | null = this.jwtService.getToken();
+
+    if(token == null || this.jwtService.isTokenExpired(token)) {
+      
+      return;
+    }
+
+
+    this.cotizaciones.enviarEmail(token,mail).subscribe(
+      (res) => {
+      
+        console.log(res);
+      }
+    );
   }
 
   

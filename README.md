@@ -29,3 +29,8 @@ npm install @types/jspdf @types/html2canvas -D
 
 
 
+npm install --save html2pdf.js
+npm install @types/html2pdf.js --save-dev
+
+
+
