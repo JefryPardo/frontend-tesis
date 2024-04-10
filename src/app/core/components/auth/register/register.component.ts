@@ -67,13 +67,13 @@ export class RegisterComponent {
     if(this.formRegistro.invalid) {
         
       if(this.campoInvalid('nombre'))         this.mensajeAlertaError('Nombre:',          'Se requiere el nombre.');
-      if(this.campoInvalid('apellido'))       this.mensajeAlertaError('Apellido:',        'Se requiere la apellido.');
+      if(this.campoInvalid('apellido'))       this.mensajeAlertaError('Apellido:',        'Se requiere el apellido.');
       if(this.campoInvalid('direccion'))      this.mensajeAlertaError('Direccion:',       'Se requiere la direccion.');
-      if(this.campoInvalid('celular'))        this.mensajeAlertaError('Celular:',         'Se requiere la celular.');
-      if(this.campoInvalid('tipo_documento')) this.mensajeAlertaError('Tipo documento:',  'Se requiere la tipo_documento.');
-      if(this.campoInvalid('documento'))      this.mensajeAlertaError('Documento:',       'Se requiere la documento.');
+      if(this.campoInvalid('celular'))        this.mensajeAlertaError('Celular:',         'Se requiere el celular.');
+      if(this.campoInvalid('tipo_documento')) this.mensajeAlertaError('Tipo documento:',  'Se requiere el tipo_documento.');
+      if(this.campoInvalid('documento'))      this.mensajeAlertaError('Documento:',       'Se requiere el documento.');
       if(this.campoInvalid('clave'))          this.mensajeAlertaError('Clave:',           'Se requiere la clave.');
-      if(this.campoInvalid('usuario'))        this.mensajeAlertaError('Correo:',          'Se requiere la correo.');
+      if(this.campoInvalid('usuario'))        this.mensajeAlertaError('Correo:',          'Se requiere el correo.');
 
       return Object.values(this.formRegistro.controls).forEach(control => {
 
@@ -96,9 +96,13 @@ export class RegisterComponent {
       "estado":             this.formRegistro.value.estado
     }
 
+    console.log(usuario);
+
     this.authService.register(usuario).subscribe(
       
       (res) => {
+
+        console.log(res);
 
         if (res.status == 200) {
 

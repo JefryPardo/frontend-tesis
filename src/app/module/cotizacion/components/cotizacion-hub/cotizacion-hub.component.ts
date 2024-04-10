@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AllProductosModel } from 'src/app/models/model/all-productos.model';
 import { CotizacionProductoModel } from 'src/app/models/model/cotizacion-producto.model';
 import { ProductoModel } from 'src/app/models/model/producto.model';
 import { ResponseModel } from 'src/app/models/model/response.model';
@@ -142,13 +143,12 @@ export class CotizacionHubComponent {
 
           if(response.code === '#SP') {
 
-            this.listado_productos_catalogo = response.response;
+            const prod : AllProductosModel = response.response;
+            this.listado_productos_catalogo = prod.productos_impares.concat(prod.productos_pares);
             this.select = false;
           }
         }
-      },
-
-      (error) => {
+      },(error) => {
 
         this.mensaje.mostrarAlertaError('Error', "Algo salio mal, reportalo por favor.");
         this.router.navigate(['app']);
@@ -347,9 +347,13 @@ export class CotizacionHubComponent {
       spacerElement.style.height = searchElement.clientHeight + 'px';
       this.isSearchFixed = true;
     } else {
-      searchElement.classList.remove('fixed-search');
-      spacerElement.style.height = '0';
-      this.isSearchFixed = false;
+
+      if(searchElement != null) {
+
+        searchElement.classList.remove('fixed-search');
+        spacerElement.style.height = '0';
+        this.isSearchFixed = false;
+      }
     }
   }
 

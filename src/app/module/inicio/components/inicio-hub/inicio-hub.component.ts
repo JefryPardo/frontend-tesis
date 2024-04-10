@@ -6,6 +6,7 @@ import { ResponseModel } from 'src/app/models/model/response.model';
 import { JwtService } from 'src/app/service/jwt.service';
 import { Router } from '@angular/router';
 import { ResponseExcepcionModel } from 'src/app/models/model/response.excepcion.mode';
+import { AllProductosModel } from 'src/app/models/model/all-productos.model';
 
 @Component({
   selector: 'app-inicio-hub',
@@ -16,7 +17,7 @@ export class InicioHubComponent {
 
   estadoBanner: boolean = true;
 
-  productos: ProductoModel[] = [];
+  // productos: ProductoModel[] = [];
   
   filteredProductosImpares  : ProductoModel[];
   filteredProductosPares: ProductoModel[];
@@ -72,15 +73,12 @@ export class InicioHubComponent {
         if (res.status == 200) {
           
           const body: ResponseModel = res.body;
-          const response : ProductoModel[] = body.response;
+          const response : AllProductosModel = body.response;
 
-          this.productos = response;
-
-          this.filteredProductosPares   = this.productos.filter((_, index) => index % 2 === 0);
-          this.filteredProductosImpares = this.productos.filter((_, index) => index % 2 !== 0);
-          
-          this.productosPares   = this.productos.filter((_, index) => index % 2 === 0);
-          this.productosImpares = this.productos.filter((_, index) => index % 2 !== 0);
+          this.filteredProductosPares   = response.productos_pares;
+          this.filteredProductosImpares = response.productos_impares;
+          this.productosPares   = response.productos_pares;
+          this.productosImpares = response.productos_impares;
 
           return;
 

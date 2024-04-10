@@ -3,6 +3,7 @@ import { ProductoModel } from 'src/app/models/model/producto.model';
 import { HomeService } from './home.service';
 import { ResponseModel } from 'src/app/models/model/response.model';
 import { ToastService } from 'src/app/service/toast.service';
+import { AllProductosModel } from 'src/app/models/model/all-productos.model';
 
 @Component({
   selector: 'app-home',
@@ -13,13 +14,13 @@ export class HomeComponent {
 
   estadoBanner: boolean = true;
 
-  productos       : ProductoModel[] = [];
+  // productos       : ProductoModel[] = [];
   
   filteredProductosImpares  : ProductoModel[];
   filteredProductosPares: ProductoModel[];
-  
   productosPares  : ProductoModel[];
   productosImpares: ProductoModel[];
+  
 
   isSearchFixed = false;
 
@@ -55,15 +56,14 @@ export class HomeComponent {
         if (res.status == 200) {
           
           const body: ResponseModel = res.body;
-          const response : ProductoModel[] = body.response;
+          const response : AllProductosModel = body.response;
 
-          this.productos = response;
-          this.filteredProductosPares   = this.productos.filter((_, index) => index % 2 === 0);
-          this.filteredProductosImpares = this.productos.filter((_, index) => index % 2 !== 0);
-          
-          this.productosPares   = this.productos.filter((_, index) => index % 2 === 0);
-          this.productosImpares = this.productos.filter((_, index) => index % 2 !== 0);
+          this.filteredProductosPares   = response.productos_pares;
+          this.filteredProductosImpares = response.productos_impares;
 
+          this.productosPares   = response.productos_pares;
+          this.productosImpares = response.productos_impares;
+        
           return;
 
         } else if (res.status == 500) {

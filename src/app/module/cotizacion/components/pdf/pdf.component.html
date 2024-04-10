@@ -8,6 +8,7 @@
         
                 <div class="grid grid-nogutter mt-3 mb-0 border-bottom-2 border-black-alpha-90 surface-overlay">
                     <div class="col-12 flex flex-wrap align-items-center justify-content-end">referencia: <span class="numero pl-2 negrilla">{{numero_cotizacion}}</span></div>
+                    <div class="col-12 flex flex-wrap align-items-center justify-content-end tamanio">version: <span class="pl-2 negrilla">{{version}}</span></div>
                 </div>
                 
                 <div class="grid grid-nogutter mt-1">
@@ -125,23 +126,43 @@
     <div class="grid grid-nogutter">
 
         <div class="col-12 mb-2">
+            <span class="tamanio">Ingrese una descripción para la cotización.</span>
+        </div>
+        
+        <div class="col-12 mb-3">
+            <input type="text" [(ngModel)]="descripcion" class="custom-input" (input)="onInputChangeDescripcion($event)" (focus)="clearInput($event)">
+        </div>
+
+        <div class="col-12 mb-2">
             <span class="tamanio">Ingrese el valor de la mano de obra.</span>
         </div>
         
         <div class="col-12 mb-3">
-            <input type="number" [(ngModel)]="value_mano_de_obra" class="custom-input" (input)="onInputChange($event)" (focus)="clearInput($event)">
+            <input type="number" [(ngModel)]="value_mano_de_obra" class="custom-input" (input)="onInputChangeManoDeObra($event)" (focus)="clearInput($event)">
         </div>
         
+        <div class="col-12 mb-2">
+            <span class="tamanio">Ingrese detalles de la mano de obra</span>
+        </div>
+
         <div class="col-12 mb-3">
             <input type="text" [(ngModel)]="detalle_mano_de_obra" class="custom-input" (focus)="clearInput($event)">
+        </div>
+        
+        <div class="col-12 mb-2">
+            <span class="tamanio">¿Desea cambiar el correo de destino?</span>
+        </div>
+
+        <div class="col-12 mb-3">
+            <input type="text" [(ngModel)]="correo_destino" class="custom-input" (focus)="clearInput($event)">
         </div>
 
         <div class="col-12">
             <button 
                 pButton 
                 pRipple 
-                (click)="setManoDeObra()"
-                label="Agregar"
+                (click)="setData()"
+                label="Generar cotización"
                 class="custom-button" 
                 [style]="{'width':'100%'}" 
             ></button>                            
@@ -159,15 +180,10 @@
             class="bg-black-alpha-90 col-12 w-full px-0" 
             [style]="{'width':'100%'}" 
         ></button>
-        <button 
-            pButton 
-            pRipple 
-            label="enviar correo"
-            (click)="enviarcorreo()"
-            class="bg-black-alpha-90 col-12 w-full px-0" 
-            [style]="{'width':'100%'}" 
-        ></button>
     </div>
+
+    <br>
+    <br>
 </div>
 
 <br>

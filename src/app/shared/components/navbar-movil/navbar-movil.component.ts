@@ -10,9 +10,7 @@ export class NavbarMovilComponent implements OnInit {
 
   items = [
     { text: 'Cotizaciones', active: false, icon: 'pi pi-id-card',     ruta: 'app/cotizacion'  },
-    { text: 'Ganancia',     active: false, icon: 'pi pi-percentage',  ruta: 'app/ganancias'    },
     { text: 'Catalogo',     active: true,  icon: 'pi pi-book',        ruta: 'app/catalogo'    },
-    { text: 'Favoritos',    active: false, icon: 'pi pi-star',        ruta: 'app/favoritos'   },
     { text: 'Perfil',       active: false, icon: 'pi pi-user',        ruta: 'app/perfil'      }
   ];
 

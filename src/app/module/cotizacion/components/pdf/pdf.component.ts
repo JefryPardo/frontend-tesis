@@ -9,6 +9,8 @@ import { PrincipalService } from 'src/app/module/principal.service';
 import { CotizacionesService } from 'src/app/service/cotizaciones.service';
 import { MailModel } from 'src/app/models/model/mail.model';
 import { JwtService } from 'src/app/service/jwt.service';
+import { FirebaseServiceService } from 'src/app/firebase-service.service';
+import { CotizacionHistorialModel } from 'src/app/models/model/cotizacion-historial.model';
 
 @Component({
   selector: 'app-pdf',
@@ -28,12 +30,16 @@ export class PdfComponent implements OnInit {
   show_mano_de_obra:boolean = false;
   productosPorTipo: { [tipo: string]: ProductoModel[] } = {};
   tiposDeProducto: string[] = [];
-  descripcion:string = 'Esta cotización es para el cambio de camaras en el area de juegos infantiles en el local cristaleria la 40.';
+  descripcion:string = 'Sin descripción';
+  fechaFormateada: string = '';
+  correo_destino: string = 'Sin correo';
+  version: string = '';
 
   constructor(
     public principalService: PrincipalService,
     public cotizaciones: CotizacionesService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private firebaseService: FirebaseServiceService
   ) {}
   
   ngOnInit(): void {
@@ -42,6 +48,33 @@ export class PdfComponent implements OnInit {
     this.listados();
     this.show_mano_de_obra = true;
     this.tiposDeProducto = Object.keys(this.productosPorTipo);
+    this.correo_destino = this.resumen.cotizacion.correo_cliente;
+  }
+  
+  generarCotizacionHistorial() {
+    let historialPlain = {
+      correo: this.correo_destino,
+      cotizacion: this.resumen.cotizacion,
+      descripcion: this.descripcion,
+      detalle_de_obra: this.detalle_mano_de_obra,
+      mano_de_obra: this.value_mano_de_obra,
+      producto_historial: this.resumen.resumen_producto,
+      referencia: this.numero_cotizacion,
+      version: 'sin asignar'
+    };
+
+    this.firebaseService.createItem(historialPlain)
+    .then((docRef) => {
+      console.log('Documento guardado con ID:', docRef.id);
+      this.version = docRef.id;
+      this.show_mano_de_obra = false;
+
+      historialPlain.version = this.version;
+      this.enviarcorreo(historialPlain);
+    })
+    .catch((error) => {
+      console.error('Error al guardar documento:', error);
+    });
   }
 
   clearInput(event: any) {
@@ -86,9 +119,9 @@ export class PdfComponent implements OnInit {
     const fecha = new Date();
     
     const options:any = { year: 'numeric', month: 'long', day: 'numeric' };
-    const fechaFormateada = fecha.toLocaleDateString('es-ES', options);
+    this.fechaFormateada = fecha.toLocaleDateString('es-ES', options);
   
-    return fechaFormateada;
+    return this.fechaFormateada;
   }
 
   calcularTotal(cantidad:string, precio:number) {
@@ -126,18 +159,20 @@ export class PdfComponent implements OnInit {
     }
   }
 
-  setManoDeObra() {
+  setData() {
 
-    console.log(this.value_mano_de_obra);
-    this.show_mano_de_obra = false;
-  }
+    this.generarCotizacionHistorial();
+  }  
 
-  
-
-  onInputChange(event: any) {
+  onInputChangeManoDeObra(event: any) {
     const inputValue: string = event.target.value;
     const sanitizedValue: string = inputValue.replace(/-/g, '');
     this.value_mano_de_obra = sanitizedValue !== '' ? +sanitizedValue : 0;
+  }
+  
+  onInputChangeDescripcion(event: any) {
+    const inputValue: string = event.target.value;
+    this.descripcion = inputValue;
   }
 
   
@@ -170,9 +205,6 @@ export class PdfComponent implements OnInit {
       valor = valor + this.calcularTotalPorTipo(tipo);
     });
 
-
-    console.log(this.value_mano_de_obra);
-
     valor = valor + this.value_mano_de_obra;
 
     return valor;
@@ -192,13 +224,11 @@ export class PdfComponent implements OnInit {
     });
   }
   
-  enviarcorreo() {
+  enviarcorreo(cotizacion_historial: CotizacionHistorialModel) {
     
-    const htmlContent = this.htmlDataRef.nativeElement.innerHTML;
-    console.log(htmlContent);
-
-    const mail = new MailModel();
-    mail.html = htmlContent;
+    // const htmlContent = this.htmlDataRef.nativeElement.innerHTML;
+    // const mail = new MailModel();
+    // mail.html = htmlContent;
 
     const token: string | null = this.jwtService.getToken();
 
@@ -207,15 +237,11 @@ export class PdfComponent implements OnInit {
       return;
     }
 
-
-    this.cotizaciones.enviarEmail(token,mail).subscribe(
+    this.cotizaciones.enviarEmail(token,cotizacion_historial).subscribe(
       (res) => {
       
         console.log(res);
       }
     );
   }
-
-  
-
 }

@@ -81,6 +81,7 @@ export class LoginComponent {
 
           if(code == '#L02') {
 
+            // Formato del correo no valido. // validacion por el BackEnd
             this.mensaje.mostrarAlertaError('Correo',body.response);
             return;
           }

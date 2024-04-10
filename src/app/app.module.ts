@@ -12,13 +12,15 @@ import { MessageService } from 'primeng/api';
 
 import { ToastService } from './service/toast.service';
 import { AuthGuard } from './core/components/auth/auth.guard';
-import { RolDirective } from './directive/rol.directive';
 import { HttpClientModule } from '@angular/common/http';
+
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { environment, firebaseConfig } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RolDirective,
   ],
   imports: [
     BrowserModule,
@@ -28,6 +30,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     MenubarModule,
     ToastModule,
+    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideFirestore(() => getFirestore())
   ],
   exports: [],
   providers: [MessageService,ToastService,AuthGuard],

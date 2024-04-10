@@ -6,6 +6,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CotizacionModel } from '../models/model/cotizacion.model';
 import { MailModel } from '../models/model/mail.model';
+import { CotizacionHistorialModel } from '../models/model/cotizacion-historial.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,13 +40,9 @@ export class CotizacionesService {
     );
   }
 
-  public enviarEmail(token:string, data: MailModel) : Observable<any>{
+  public enviarEmail(token:string, cotizacion_historial: CotizacionHistorialModel) : Observable<any>{
 
-    console.log(token);
-    console.log(data);
-    console.log(environment.api + '/mail/enviar-correo');
-
-    return this.http.post(environment.api + '/mail/enviar-correo', data ,this.jwtService.getHttpOptionsWithToken(token)).pipe(
+    return this.http.post(environment.api + '/mail/enviar-correo', cotizacion_historial ,this.jwtService.getHttpOptionsWithToken(token)).pipe(
       catchError((err) => this.handleError(err, ['Error', 'Fallas iniciando sesion, inténtelo nuevamente.']))
     );
   }
