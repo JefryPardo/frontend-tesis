@@ -2,12 +2,9 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ResumenModel } from 'src/app/models/model/resumen.model';
 
 //@ts-ignore
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { ProductoModel } from 'src/app/models/model/producto.model';
 import { PrincipalService } from 'src/app/module/principal.service';
 import { CotizacionesService } from 'src/app/service/cotizaciones.service';
-import { MailModel } from 'src/app/models/model/mail.model';
 import { JwtService } from 'src/app/service/jwt.service';
 import { FirebaseServiceService } from 'src/app/firebase-service.service';
 import { CotizacionHistorialModel } from 'src/app/models/model/cotizacion-historial.model';
@@ -64,7 +61,7 @@ export class PdfComponent implements OnInit {
     };
 
     this.firebaseService.createItem(historialPlain)
-    .then((docRef) => {
+    .then((docRef:any) => {
       console.log('Documento guardado con ID:', docRef.id);
       this.version = docRef.id;
       this.show_mano_de_obra = false;
@@ -72,7 +69,7 @@ export class PdfComponent implements OnInit {
       historialPlain.version = this.version;
       this.enviarcorreo(historialPlain);
     })
-    .catch((error) => {
+    .catch((error:any) => {
       console.error('Error al guardar documento:', error);
     });
   }
@@ -86,33 +83,6 @@ export class PdfComponent implements OnInit {
     const id_cotizacion = this.resumen.cotizacion.id;
     if(id_cotizacion == undefined || id_cotizacion == null) return;
     this.numero_cotizacion = id_cotizacion.split('-')[0];
-  }
-
-  downloadPDF() {
-    
-    const DATA = document.getElementById('htmlData');
-    const doc = new jsPDF('p', 'pt', 'a4');
-    
-    const options = {
-      background: 'white',
-      scale: 3
-    };
-
-    if(DATA == null) return;
-
-    html2canvas(DATA, options).then((canvas) => {
-
-      const img = canvas.toDataURL('image/PNG');
-      const bufferX = 15;
-      const bufferY = 15;
-      const imgProps = (doc as any).getImageProperties(img);
-      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
-      return doc;
-    }).then((docResult) => {
-      docResult.save(`${new Date().toISOString()}_tutorial.pdf`);
-    });
   }
 
   obtenerFechaConFormato() {
@@ -226,10 +196,6 @@ export class PdfComponent implements OnInit {
   
   enviarcorreo(cotizacion_historial: CotizacionHistorialModel) {
     
-    // const htmlContent = this.htmlDataRef.nativeElement.innerHTML;
-    // const mail = new MailModel();
-    // mail.html = htmlContent;
-
     const token: string | null = this.jwtService.getToken();
 
     if(token == null || this.jwtService.isTokenExpired(token)) {
