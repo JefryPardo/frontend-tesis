@@ -1,11 +1,17 @@
-<app-banner></app-banner>
-<div class="spacer"></div>
-<app-search (searchChanged)="onSearchChanged($event)" id="search"></app-search>
-<app-carta-grid
-    [banner]="estadoBanner"
-    [productosPares]="filteredProductosPares" 
-    [productosImpares]="filteredProductosImpares"
-></app-carta-grid>
-<hr>
-<hr>
-<hr>
+<div *ngIf="!isLoading">
+    <app-banner></app-banner>
+    <div class="spacer"></div>
+    <app-search (searchChanged)="onSearchChanged($event)" id="search"></app-search>
+    <app-carta-grid
+        [banner]="estadoBanner"
+        [productosPares]="filteredProductosPares" 
+        [productosImpares]="filteredProductosImpares"
+    ></app-carta-grid>
+    <hr>
+    <hr>
+    <hr>
+</div>
+
+<div *ngIf="isLoading">
+    <app-spinner></app-spinner>
+</div>

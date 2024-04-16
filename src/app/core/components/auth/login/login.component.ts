@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   formLogin: FormGroup;
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -62,6 +63,8 @@ export class LoginComponent {
       "clave": this.formLogin.value.clave
     }
 
+    this.isLoading = true;
+
     this.authService.login(login).subscribe(
       
       (res) => {
@@ -75,6 +78,7 @@ export class LoginComponent {
             
             const token : string = body.response;
             this.controlLoginExitoso(token);
+            this.isLoading = false;
             this.router.navigate(['app/catalogo']);     
             return;       
           }
@@ -82,6 +86,7 @@ export class LoginComponent {
           if(code == '#L02') {
 
             // Formato del correo no valido. // validacion por el BackEnd
+            this.isLoading = false;
             this.mensaje.mostrarAlertaError('Correo',body.response);
             return;
           }
@@ -94,22 +99,26 @@ export class LoginComponent {
           if (code === 'AUTH') {
 
             this.mensaje.mostrarAlertaError('Credenciales','credenciales NO validas.');
+            this.isLoading = false;
             return;
           }
 
           if(code === '#feq') {
 
             this.mensaje.mostrarAlertaError('Error','Reporta el error por favor.');
+            this.isLoading = false;
             return;
           }
         }
 
+        this.isLoading = false;
         this.mensaje.mostrarAlertaError('Error','Algo salio mal.');
         return;
       },
       
       (err)=>{
         
+        this.isLoading = false;
         this.mensaje.mostrarAlertaError('Spinner off','');
         return;
       }

@@ -13,6 +13,7 @@ import { AllProductosModel } from 'src/app/models/model/all-productos.model';
 export class HomeComponent {
 
   estadoBanner: boolean = true;
+  isLoading:    boolean = false;
 
   // productos       : ProductoModel[] = [];
   
@@ -48,6 +49,8 @@ export class HomeComponent {
   }
 
   getListProducto():void {
+
+    this.isLoading = true;
     
     this.homeService.getProductos().subscribe(
       
@@ -64,26 +67,30 @@ export class HomeComponent {
           this.productosPares   = response.productos_pares;
           this.productosImpares = response.productos_impares;
         
+          this.isLoading = false;
           return;
-
+          
         } else if (res.status == 500) {
 
           const body: ResponseModel = res.body;
           const code : string = body.code;
-
+          
           if(code === '#feq') {
-
+            
+            this.isLoading = false;
             this.mensaje.mostrarAlertaError('Error','Reporta el error por favor.');
             return;
           }
         }
-
+        
         this.mensaje.mostrarAlertaError('Error','Algo salio mal.');
+        this.isLoading = false;
         return;
       },
       (err)=>{
         
-        this.mensaje.mostrarAlertaError('Spinner off','');
+        this.isLoading = false;
+        this.mensaje.mostrarAlertaError('Error','');
         return;
       }
     );

@@ -5,7 +5,6 @@ import { InicioService } from '../../inicio.service';
 import { ResponseModel } from 'src/app/models/model/response.model';
 import { JwtService } from 'src/app/service/jwt.service';
 import { Router } from '@angular/router';
-import { ResponseExcepcionModel } from 'src/app/models/model/response.excepcion.mode';
 import { AllProductosModel } from 'src/app/models/model/all-productos.model';
 
 @Component({
@@ -16,6 +15,7 @@ import { AllProductosModel } from 'src/app/models/model/all-productos.model';
 export class InicioHubComponent {
 
   estadoBanner: boolean = true;
+  isLoading: boolean = false;
 
   // productos: ProductoModel[] = [];
   
@@ -65,7 +65,8 @@ export class InicioHubComponent {
       this.router.navigate(['auth/login']);
       return;
     }
-    
+
+    this.isLoading = true;
     this.inicioService.getProductos(token).subscribe(
       
       (res) => {
@@ -80,6 +81,7 @@ export class InicioHubComponent {
           this.productosPares   = response.productos_pares;
           this.productosImpares = response.productos_impares;
 
+          this.isLoading = false;
           return;
 
         } else if (res.status == 500) {
@@ -89,12 +91,14 @@ export class InicioHubComponent {
           if(code === "TOK02") {
 
             this.router.navigate(['auth/login']);
+            this.isLoading = false;
             return;
           }
 
           if(code === '#feq') {
 
             this.mensaje.mostrarAlertaError('Error','Reporta el error por favor.');
+            this.isLoading = false;
             return;
           }
         }
@@ -102,6 +106,7 @@ export class InicioHubComponent {
       (err)=>{
         
         this.mensaje.mostrarAlertaError('Spinner off','');
+        this.isLoading = false;
         return;
       }
     );

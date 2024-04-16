@@ -15,6 +15,7 @@ import { ToastService } from 'src/app/service/toast.service';
 export class ListaCotizacionesComponent {
 
   cotizaciones: CotizacionModel[] = [];
+  isLoading: boolean = false;
 
   constructor(
     public cotizacionesServices: CotizacionesService,
@@ -41,6 +42,7 @@ export class ListaCotizacionesComponent {
     const roles       :string[] = decode.roles;
     const id_usuario  :string   = decode.sub;
     
+    this.isLoading = true;
     this.cotizacionesServices.getCotizacionesList(token,id_usuario).subscribe(
       (res) => {
       
@@ -48,8 +50,8 @@ export class ListaCotizacionesComponent {
             
           const body      : ResponseModel = res.body;
           const response  : CotizacionModel[] = body.response;
+          this.isLoading = false;
           this.cotizaciones = response;
-
           return;
 
         } else if (res.status == 500) {
@@ -60,6 +62,7 @@ export class ListaCotizacionesComponent {
           if(code === '#feq') {
 
             this.mensaje.mostrarAlertaError('Error','Reporta el error por favor.');
+            this.isLoading = false;
             return;
           }
           
@@ -67,10 +70,12 @@ export class ListaCotizacionesComponent {
 
             this.router.navigate(['auth/login']);
             this.mensaje.mostrarAlertaError('Sesión','Sesión expirada.');
+            this.isLoading = false;
             return;
           }
         }
           this.mensaje.mostrarAlertaError('Error','Algo salio mal.');
+          this.isLoading = false;
           return;
         },
         (err)=>{

@@ -30,6 +30,7 @@ import { ProductoPublicoComponent } from './components/producto-publico/producto
 import { AgregarProductoComponent } from './components/agregar-producto/agregar-producto.component';
 import { ProductoCotizacionComponent } from './components/producto-cotizacion/producto-cotizacion.component';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
     OrderlistCotizacionesComponent,
     ProductoPublicoComponent,
     AgregarProductoComponent,
-    ProductoCotizacionComponent
+    ProductoCotizacionComponent,
+    SpinnerComponent
   ],
 
   exports: [
@@ -72,7 +74,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
     OrderlistCotizacionesComponent,
     ProductoPublicoComponent,
     AgregarProductoComponent,
-    ProductoCotizacionComponent
+    ProductoCotizacionComponent,
+    SpinnerComponent
   ],
 
   imports: [

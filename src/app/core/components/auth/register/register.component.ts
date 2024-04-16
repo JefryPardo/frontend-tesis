@@ -22,6 +22,7 @@ export class RegisterComponent {
 
   formRegistro: FormGroup;
 
+  isLoading: boolean = false;
   tipo_documento          : TipoDocumentoI[]  | undefined;
   selected_tipo_documento : TipoDocumentoI    | undefined;
 
@@ -96,13 +97,10 @@ export class RegisterComponent {
       "estado":             this.formRegistro.value.estado
     }
 
-    console.log(usuario);
-
+    this.isLoading = true;
     this.authService.register(usuario).subscribe(
       
       (res) => {
-
-        console.log(res);
 
         if (res.status == 200) {
 
@@ -113,6 +111,7 @@ export class RegisterComponent {
           if(code === '#RS') {
 
             this.login();
+            this.isLoading = false;
             this.mensaje.mostrarAlertaSuccess('Success',mensaje);
             return;
           }
@@ -125,6 +124,7 @@ export class RegisterComponent {
           if (code === '#R02') {
             
             this.mensaje.mostrarAlertaError('Correo','correo no disponible.');
+            this.isLoading = false;
             return;
           }
           if (code === '#R03') {
@@ -135,19 +135,18 @@ export class RegisterComponent {
               
               this.mensaje.mostrarAlertaError('Contraseña',mensaje);
             });
-
+            
+            this.isLoading = false;
             return;
           }
-
-
         }
       },
       (err)=>{
 
-
+        this.isLoading = false;
+        this.mensaje.mostrarAlertaError('Error','');
       }
     );
-
   }
 
   login() {

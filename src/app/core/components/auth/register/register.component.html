@@ -1,155 +1,161 @@
-<div class="grid grid-nogutter mt-4 container flex align-content-center flex-wrap">
-    <div class="col-10 col-offset-1 md:col-4 md:col-offset-4">
-        
-        <div class="grid">
-
-            <div class="col-12 py-8 my-8">
-
-                <p-card header="Registrarte">
+<div *ngIf="isLoading">
+    <div class="grid grid-nogutter mt-4 container flex align-content-center flex-wrap">
+        <div class="col-10 col-offset-1 md:col-4 md:col-offset-4">
+            
+            <div class="grid">
     
-                    <div class="formgrid grid" [formGroup]="formRegistro">
-                    
-                        <div class="field col-12">
-                            
-                            <input 
-                                pInputText 
-                                [ngClass]="{'ng-invalid ng-dirty': validarCampo('nombre') }"
-                                pKeyFilter="int" 
-                                placeholder="Nombre" 
-                                formControlName="nombre"
-                                class="w-full"
-                                [style]="{width: '100%'}"
-                            />
-
-                        </div>
-
-                        <div class="field col-12">
-                            
-                            <input 
-                                pInputText 
-                                [ngClass]="{'ng-invalid ng-dirty': validarCampo('apellido') }"
-                                pKeyFilter="int" 
-                                placeholder="Apellido" 
-                                formControlName="apellido"
-                                class="w-full"
-                                [style]="{width: '100%'}"
-                            />
-
-                        </div>
-
-                        <div class="field col-12">
-                            
-                            <input 
-                                pInputText 
-                                [ngClass]="{'ng-invalid ng-dirty': validarCampo('direccion') }"
-                                pKeyFilter="int" 
-                                placeholder="direccion" 
-                                formControlName="direccion"
-                                class="w-full"
-                                [style]="{width: '100%'}"
-                            />
-
-                        </div>
-
-                        <div class="field col-12">
-                            
-                            <input 
-                                pInputText 
-                                [ngClass]="{'ng-invalid ng-dirty': validarCampo('celular') }"
-                                pKeyFilter="int" 
-                                placeholder="celular" 
-                                formControlName="celular"
-                                class="w-full"
-                                [style]="{width: '100%'}"
-                            />
-
-                        </div>
+                <div class="col-12 py-8 my-8">
+    
+                    <p-card header="Registrarte">
+        
+                        <div class="formgrid grid" [formGroup]="formRegistro">
                         
-                        <div class="field col-12">
-                            
-                            <input 
-                                pInputText 
-                                [ngClass]="{'ng-invalid ng-dirty': validarCampo('documento') }"
-                                pKeyFilter="int" 
-                                placeholder="documento" 
-                                formControlName="documento"
-                                class="w-full"
-                                [style]="{width: '100%'}"
-                            />                            
-
-                        </div>
-                        
-                        <div class="field col-12">
-                            
-                            <p-dropdown 
-                                [ngClass]="{'ng-invalid ng-dirty': validarCampo('documento') }"
-                                [options]="tipo_documento" 
-                                formControlName="tipo_documento"
-                                optionLabel="name"
-                                placeholder="tipo documento"
-                                class="w-full"
-                                [style]="{width: '100%'}"
-                            ></p-dropdown>
-
-                        </div>
-
-                        <div class="field col-12">
-                            
-                            <input 
-                                pInputText 
-                                [ngClass]="{'ng-invalid ng-dirty': validarCampo('usuario') }"
-                                pKeyFilter="int" 
-                                placeholder="Correo electrónico" 
-                                formControlName="usuario"
-                                class="w-full"
-                                [style]="{width: '100%'}"
-                            />
-
-                        </div>
-                
-                        <div class="field col-12">
+                            <div class="field col-12">
                                 
-                            <p-password 
-                                formControlName="clave"
-                                [ngClass]="{'ng-invalid ng-dirty': validarCampo('clave') }"
-                                type="password" 
-                                class="w-full" 
-                                [feedback]="false" 
-                                placeholder="Contraseña"
-                                styleClass="p-password p-component p-inputwrapper p-input-icon-right" 
-                                [style]="{'width':'100%'}"
-                                [inputStyle]="{'width':'100%'}" 
-                                [toggleMask]="true"
-                            ></p-password>
-
-                        </div>
-                
-                        <div class="col-12 flex flex-wrap">
-                    
-                            <p-button 
-                                (onClick)="register()"
-                                class="col-12 w-full px-0" 
-                                [style]="{'width':'100%'}" 
-                                label="Registrarte"
-                            ></p-button>
+                                <input 
+                                    pInputText 
+                                    [ngClass]="{'ng-invalid ng-dirty': validarCampo('nombre') }"
+                                    pKeyFilter="int" 
+                                    placeholder="Nombre" 
+                                    formControlName="nombre"
+                                    class="w-full"
+                                    [style]="{width: '100%'}"
+                                />
+    
+                            </div>
+    
+                            <div class="field col-12">
+                                
+                                <input 
+                                    pInputText 
+                                    [ngClass]="{'ng-invalid ng-dirty': validarCampo('apellido') }"
+                                    pKeyFilter="int" 
+                                    placeholder="Apellido" 
+                                    formControlName="apellido"
+                                    class="w-full"
+                                    [style]="{width: '100%'}"
+                                />
+    
+                            </div>
+    
+                            <div class="field col-12">
+                                
+                                <input 
+                                    pInputText 
+                                    [ngClass]="{'ng-invalid ng-dirty': validarCampo('direccion') }"
+                                    pKeyFilter="int" 
+                                    placeholder="direccion" 
+                                    formControlName="direccion"
+                                    class="w-full"
+                                    [style]="{width: '100%'}"
+                                />
+    
+                            </div>
+    
+                            <div class="field col-12">
+                                
+                                <input 
+                                    pInputText 
+                                    [ngClass]="{'ng-invalid ng-dirty': validarCampo('celular') }"
+                                    pKeyFilter="int" 
+                                    placeholder="celular" 
+                                    formControlName="celular"
+                                    class="w-full"
+                                    [style]="{width: '100%'}"
+                                />
+    
+                            </div>
                             
-                        </div>
+                            <div class="field col-12">
+                                
+                                <input 
+                                    pInputText 
+                                    [ngClass]="{'ng-invalid ng-dirty': validarCampo('documento') }"
+                                    pKeyFilter="int" 
+                                    placeholder="documento" 
+                                    formControlName="documento"
+                                    class="w-full"
+                                    [style]="{width: '100%'}"
+                                />                            
+    
+                            </div>
+                            
+                            <div class="field col-12">
+                                
+                                <p-dropdown 
+                                    [ngClass]="{'ng-invalid ng-dirty': validarCampo('documento') }"
+                                    [options]="tipo_documento" 
+                                    formControlName="tipo_documento"
+                                    optionLabel="name"
+                                    placeholder="tipo documento"
+                                    class="w-full"
+                                    [style]="{width: '100%'}"
+                                ></p-dropdown>
+    
+                            </div>
+    
+                            <div class="field col-12">
+                                
+                                <input 
+                                    pInputText 
+                                    [ngClass]="{'ng-invalid ng-dirty': validarCampo('usuario') }"
+                                    pKeyFilter="int" 
+                                    placeholder="Correo electrónico" 
+                                    formControlName="usuario"
+                                    class="w-full"
+                                    [style]="{width: '100%'}"
+                                />
+    
+                            </div>
+                    
+                            <div class="field col-12">
+                                    
+                                <p-password 
+                                    formControlName="clave"
+                                    [ngClass]="{'ng-invalid ng-dirty': validarCampo('clave') }"
+                                    type="password" 
+                                    class="w-full" 
+                                    [feedback]="false" 
+                                    placeholder="Contraseña"
+                                    styleClass="p-password p-component p-inputwrapper p-input-icon-right" 
+                                    [style]="{'width':'100%'}"
+                                    [inputStyle]="{'width':'100%'}" 
+                                    [toggleMask]="true"
+                                ></p-password>
+    
+                            </div>
+                    
+                            <div class="col-12 flex flex-wrap">
                         
-                        <br>
-
-                        <div class="grid grid-nogutter col-12 flex justify-content-center flex-wrap mt-1">
-                            <p-button 
-                                (onClick)="login()"
-                                class="flex align-items-center justify-content-center"
-                                label="Iniciar sesión" 
-                                styleClass="p-button-secondary p-button-text"
-                            ></p-button>
+                                <p-button 
+                                    (onClick)="register()"
+                                    class="col-12 w-full px-0" 
+                                    [style]="{'width':'100%'}" 
+                                    label="Registrarte"
+                                ></p-button>
+                                
+                            </div>
+                            
+                            <br>
+    
+                            <div class="grid grid-nogutter col-12 flex justify-content-center flex-wrap mt-1">
+                                <p-button 
+                                    (onClick)="login()"
+                                    class="flex align-items-center justify-content-center"
+                                    label="Iniciar sesión" 
+                                    styleClass="p-button-secondary p-button-text"
+                                ></p-button>
+                            </div>
+                    
                         </div>
-                
-                    </div>
-                </p-card>
+                    </p-card>
+                </div>
+    
             </div>
-
         </div>
     </div>
+</div>
+
+<div *ngIf="isLoading">
+    <app-spinner></app-spinner>
 </div>
