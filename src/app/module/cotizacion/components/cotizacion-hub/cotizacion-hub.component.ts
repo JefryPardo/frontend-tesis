@@ -1,7 +1,10 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
 import { AllProductosModel } from 'src/app/models/model/all-productos.model';
 import { CotizacionProductoModel } from 'src/app/models/model/cotizacion-producto.model';
+import { CotizacionModel } from 'src/app/models/model/cotizacion.model';
 import { ProductoModel } from 'src/app/models/model/producto.model';
 import { ResponseModel } from 'src/app/models/model/response.model';
 import { ResumenProductoModel } from 'src/app/models/model/resumen-producto.model';
@@ -31,6 +34,7 @@ export class CotizacionHubComponent {
   pdf_show: boolean = false;
   show_listado_productos_cotizados: boolean = false;
   select: boolean = false;
+  visibleDialogEditar: boolean = false;
   isSearchFixed = false;
 
 
@@ -38,6 +42,8 @@ export class CotizacionHubComponent {
   productosImpares: ResumenProductoModel[];
   filteredProductosImpares  : ResumenProductoModel[] = [];
   filteredProductosPares    : ResumenProductoModel[] = [];
+
+  formEditar: FormGroup;
 
 
   constructor(
@@ -49,11 +55,14 @@ export class CotizacionHubComponent {
     private route: ActivatedRoute,
     private jwtService: JwtService,
     private mensaje: ToastService,
-    private el: ElementRef
+    private el: ElementRef,
+    private fb: FormBuilder,
+    private confirmationService: ConfirmationService
   ) {
 
     this.pdf_show = false;
     this.getResumen();
+    this.formEditar = this.inicializarFormularioEditarTemporal();
   }
 
   getResumen() {
@@ -86,6 +95,7 @@ export class CotizacionHubComponent {
               this.productosPares   = this.resumen.resumen_producto.filter((_, index) => index % 2 === 0);
               this.productosImpares = this.resumen.resumen_producto.filter((_, index) => index % 2 !== 0);
               this.show_listado_productos_cotizados = true;
+              this.formEditar = this.inicializarFormularioEditar();
             }
   
             return;
@@ -119,8 +129,6 @@ export class CotizacionHubComponent {
       );
     });
   }
-
-
 
   consultarProductosCatalogo() {
 
@@ -160,13 +168,13 @@ export class CotizacionHubComponent {
 
   filtro(filtro: string) {
 
-    // this.filteredProductosPares = this.productosPares.filter((data) =>
-    //     data.producto.nombre.toLowerCase().includes(filtro.toLowerCase())
-    // );
+    this.filteredProductosPares = this.productosPares.filter((data) =>
+      data.producto.nombre.toLowerCase().includes(filtro.toLowerCase())
+    );
 
-    // this.filteredProductosImpares = this.productosImpares.filter((data) =>
-    //   data.producto.nombre.toLowerCase().includes(filtro.toLowerCase())
-    // );
+    this.filteredProductosImpares = this.productosImpares.filter((data) =>
+      data.producto.nombre.toLowerCase().includes(filtro.toLowerCase())
+    );
   }
 
   onCardCotizado(resumen_producto: ResumenProductoModel) {
@@ -362,5 +370,151 @@ export class CotizacionHubComponent {
     if(this.resumen.cotizacion == undefined) return '';
 
     return this.resumen.cotizacion.nombre;
+  }
+
+  editarCotizacion() {
+
+    this.visibleDialogEditar = true;
+  }
+
+  eliminarCotizacion(event: Event) {
+    
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: '¿Seguro desea borrar la cotización?',
+      header: 'Borrar',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon:"none",
+      rejectIcon:"none",
+      rejectButtonStyleClass:"p-button-text",
+      accept: () => {
+        this.route.params.subscribe(params => {
+          
+          const id = params['id'];
+          const token: string | null = this.jwtService.getToken();
+
+          if(token == null || this.jwtService.isTokenExpired(token)) {
+            
+            this.router.navigate(['auth/login']);
+            return;
+          }
+
+          this.resumenServices.deleteCotizacion(token,id).subscribe(
+                
+            (res) => {
+
+              console.log(res);
+              this.mensaje.mostrarAlertaSuccess('Exitoso','Se borro correctamente.');
+              this.router.navigate(['app/cotizacion/list']);
+            }
+          );
+        });
+      },
+      reject: () => {
+      }
+    });
+    
+  }
+
+  aplicarEdit() {
+
+    console.log(this.formEditar.value);
+
+    if(
+      this.formEditar.value.nombre == null ||
+      this.formEditar.value.nombre == undefined ||
+      this.formEditar.value.nombre == '' 
+    ){
+
+      this.mensaje.mostrarAlertaError('Campo requerido','Nombre no valido.');
+      return;
+    }
+
+    if(
+      this.formEditar.value.nombre_cliente == null ||
+      this.formEditar.value.nombre_cliente == undefined ||
+      this.formEditar.value.nombre_cliente == '' 
+    ){
+
+      this.mensaje.mostrarAlertaError('Campo requerido','Nombre cliente no valido.');
+      return;
+    }
+    if(
+      this.formEditar.value.cedula_cliente == null ||
+      this.formEditar.value.cedula_cliente == undefined ||
+      this.formEditar.value.cedula_cliente == '' 
+    ){
+
+      this.mensaje.mostrarAlertaError('Campo requerido','Cedula cliente no valido.');
+      return;
+    }
+    if(
+      this.formEditar.value.correo_cliente == null ||
+      this.formEditar.value.correo_cliente == undefined ||
+      this.formEditar.value.correo_cliente == '' 
+    ){
+
+      this.mensaje.mostrarAlertaError('Campo requerido','Correo cliente no valido.');
+      return;
+    }
+
+    this.route.params.subscribe(params => {
+    
+      const _id = params['id'];
+      const token: string | null = this.jwtService.getToken();
+
+      if(token == null || this.jwtService.isTokenExpired(token)) {
+        
+        this.router.navigate(['auth/login']);
+        return;
+      }
+
+      let cotizacion:CotizacionModel = {
+        
+        id: _id,
+        nombre: this.formEditar.value.nombre,
+        nombre_cliente: this.formEditar.value.nombre_cliente,
+        cedula_cliente: this.formEditar.value.cedula_cliente,
+        correo_cliente: this.formEditar.value.correo_cliente,
+        fecha_creacion: '',
+        id_usuario: '',
+        fecha_vencimiento: ''
+      }
+
+      this.resumenServices.createCotizacion(token, cotizacion).subscribe(
+            
+        (res) => {
+
+          console.log(res);
+          this.mensaje.mostrarAlertaSuccess('Exitoso','Se borro correctamente.');
+          this.router.navigate(['app/cotizacion/list']);
+        }
+      );
+    });
+  }
+
+  inicializarFormularioEditar(): FormGroup {
+
+    return this.fb.group({
+      'nombre':           new FormControl(this.resumen.cotizacion.nombre,         Validators.required),
+      'nombre_cliente':   new FormControl(this.resumen.cotizacion.nombre_cliente, Validators.required),
+      'cedula_cliente':   new FormControl(this.resumen.cotizacion.cedula_cliente, Validators.required),
+      'correo_cliente':   new FormControl(this.resumen.cotizacion.nombre_cliente, Validators.required)
+    });
+  }
+  
+  inicializarFormularioEditarTemporal(): FormGroup {
+
+    return this.fb.group({
+      'nombre':           new FormControl("",         Validators.required),
+      'nombre_cliente':   new FormControl("", Validators.required),
+      'cedula_cliente':   new FormControl("", Validators.required),
+      'correo_cliente':   new FormControl("", Validators.required)
+    });
+  }
+
+  validarCampo(campo: string) {
+  
+    return this.formEditar.get(campo)?.invalid && this.formEditar.get(campo)?.touched;
   }
 }

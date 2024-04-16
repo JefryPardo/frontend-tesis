@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { PerfilComponent } from './perfil.component';
 import { PerfilRoutingModule } from './perfil-routing.module';
 import { InicioHubComponent } from './components/inicio-hub/inicio-hub.component';
-
-
+import { DividerModule } from 'primeng/divider';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,10 @@ import { InicioHubComponent } from './components/inicio-hub/inicio-hub.component
   ],
   imports: [
     CommonModule,
-    PerfilRoutingModule
+    PerfilRoutingModule,
+    DividerModule,
+    CardModule,
+    ButtonModule
   ]
 })
 export class PerfilModule { }

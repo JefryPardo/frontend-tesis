@@ -23,6 +23,8 @@ import { ProductoCotizadoComponent } from './components/producto/producto.compon
 import { PdfComponent } from './components/pdf/pdf.component';
 
 import { TableModule } from 'primeng/table';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -49,10 +51,12 @@ import { TableModule } from 'primeng/table';
     ScrollPanelModule,
     TabViewModule,
     TableModule,
+    ConfirmDialogModule
   ],
 
   providers: [
-    CotizacionesService
+    CotizacionesService,
+    ConfirmationService
   ]
 })
 export class CotizacionModule { }
