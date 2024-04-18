@@ -29,6 +29,7 @@ export class CotizacionHubComponent {
   visible_listado_productos_catalogo: boolean = false;
 
   listado_productos_catalogo: ProductoModel[] = [];
+  listado_productos_catalogo_filtro: ProductoModel[] = [];
 
   visible_producto: boolean = false;
   pdf_show: boolean = false;
@@ -146,13 +147,13 @@ export class CotizacionHubComponent {
 
         if(resp.status == 200){
 
-
           let response: ResponseModel = resp.body;
 
           if(response.code === '#SP') {
 
             const prod : AllProductosModel = response.response;
             this.listado_productos_catalogo = prod.productos_impares.concat(prod.productos_pares);
+            this.listado_productos_catalogo_filtro = prod.productos_impares.concat(prod.productos_pares);
             this.select = false;
           }
         }
@@ -516,5 +517,18 @@ export class CotizacionHubComponent {
   validarCampo(campo: string) {
   
     return this.formEditar.get(campo)?.invalid && this.formEditar.get(campo)?.touched;
+  }
+
+  onSearchChanged(nombreProducto: string) {
+
+    console.log(nombreProducto);
+
+    this.listado_productos_catalogo_filtro = this.listado_productos_catalogo.filter((item) =>
+      item.nombre.toLowerCase().includes(nombreProducto.toLowerCase())
+    );
+
+    // this.filteredProductosImpares = this.productosImpares.filter((item) =>
+    //   item.producto.nombre.toLowerCase().includes(nombreProducto.toLowerCase())
+    // );
   }
 }

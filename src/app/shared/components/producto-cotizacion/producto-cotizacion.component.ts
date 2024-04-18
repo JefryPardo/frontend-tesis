@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ProductoModel } from 'src/app/models/model/producto.model';
+import { ToastService } from 'src/app/service/toast.service';
 
 @Component({
   selector: 'app-producto-cotizacion',
@@ -17,7 +18,7 @@ export class ProductoCotizacionComponent {
 
   cantidad: number = 1;
 
-  constructor() {
+  constructor(private mensaje: ToastService) {
     if(this.producto == undefined) this.producto = new ProductoModel();
   }
 
@@ -28,6 +29,14 @@ export class ProductoCotizacionComponent {
   }
   
   toggleInsert(producto: ProductoModel) {
+
+    const disponible:string = this.producto.unidades;
+    const disponible_number = parseInt(disponible, 10);
+    if(this.cantidad == null || this.cantidad > disponible_number) {
+
+      this.mensaje.mostrarAlertaError('Cantidad', `catidad no disponible, maximo ${disponible_number}`);
+      return;
+    }
 
     this.dateChangedAdd.emit(`insert;${producto.id};${this.cantidad}`);
   }

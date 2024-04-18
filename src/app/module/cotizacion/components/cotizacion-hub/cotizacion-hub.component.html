@@ -87,10 +87,10 @@
             <p-tabPanel header="Productos">
     
                 <section *ngIf="!select">
-                    <app-search id="search"></app-search>
+                    <app-search (searchChanged)="onSearchChanged($event)" id="search"></app-search>
         
                     <app-agregar-producto 
-                        [productos]="listado_productos_catalogo"
+                        [productos]="listado_productos_catalogo_filtro"
                         (productoChanged)="onProductoChanged($event)"
                     ></app-agregar-producto>
                 </section>

@@ -39,7 +39,7 @@
 
                 <div *ngIf="!delete" class="number-input py-4">
                     <button class="decrement-button" (click)="cantidadMenos()">-</button>
-                    <input type="number" class="input-field" value="{{cantidad}}">
+                    <input type="number" class="input-field" [(ngModel)]="cantidad">
                     <button class="increment-button" (click)="cantidadMas()">+</button>
                 </div>
                     

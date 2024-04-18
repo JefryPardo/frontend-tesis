@@ -34,30 +34,68 @@
                 
                 <p>{{producto.descripcion}}</p>
             </div>
+            
+            <div class="col-12">
+                
+                <div class="number-input py-4">
+                    <button class="decrement-button" (click)="cantidadMenos()">-</button>
+                    <input type="number" class="input-field" [(ngModel)]="cantidad">
+                    <button class="increment-button" (click)="cantidadMas()">+</button>
+                </div>
+            </div>
 
-            <div class="col-10 flex flex-wrap my-4 pr-2">
+
+            <div class="col-12 flex flex-wrap my-4 pr-2">
                 <button 
                     pButton 
                     pRipple 
                     icon="pi pi-plus" 
                     class="bg-black-alpha-90 col-12 w-full px-0" 
                     [style]="{'width':'100%'}" 
+                    (click)="addProducto()"
                 ></button>
-            </div>
-            
-            <div class="col-2 flex align-items-center justify-content-center">
-                <button 
-                    (click)="toggleFavorite(favorito)"
-                    pButton 
-                    pRipple 
-                    icon="pi pi-percentage" 
-                    class="bg-black-alpha-90 col-12 w-full px-0"
-                >
-                </button>
             </div>
         </div>
     </div>
 </div>
+
+<p-dialog 
+    header="Cotizaciones" 
+    [(visible)]="visible"
+    [draggable]="true" 
+    [resizable]="true"
+    [modal]="true" 
+    [style]="{width: '90%'}"
+    class="altura"
+>
+    <p-orderList
+        [value]="cotizaciones" 
+        [listStyle]="{ 'max-height': '20rem' }" 
+        filterBy="nombre" 
+        filterPlaceholder="Filtrar por nombre"
+    >
+        <ng-template let-cotizacion pTemplate="item">
+            <div class="flex flex-wrap p-2 align-items-center gap-3" (click)="getResumen(cotizacion)">
+                <div class="flex-1 flex flex-column gap-2">
+
+                    <div class="grid">
+                        <div class="col-10">
+
+                            <span class="font-bold">{{ cotizacion.nombre }}</span>
+                            <div class="flex align-items-center gap-2">
+                                <span>{{ cotizacion.fecha_creacion }}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-2 flex align-items-center justify-content-center">
+                            <i class="pi pi-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-orderList>    
+</p-dialog>
 
 <div class="grid grid-nogutter mt-3 px-2">
     <div class="col-12 titulo">

@@ -39,7 +39,6 @@ export class ListaCotizacionesComponent {
     
     const decode:any = this.jwtService.decodeToken(token);
 
-    const roles       :string[] = decode.roles;
     const id_usuario  :string   = decode.sub;
     
     this.isLoading = true;
