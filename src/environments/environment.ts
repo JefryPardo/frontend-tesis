@@ -1,6 +1,6 @@
 // Local NG SERVE
 export const environment = {
-  api: 'https://intense-taiga-92462-a9e175d79cd0.herokuapp.com/app',
+  api: 'https://back-tesis-b1e02402c1dd.herokuapp.com/app',
   nombreToken: 'token'
 };
 
