@@ -1,0 +1,72 @@
+<div class="bgrid mb-8">
+    
+    <app-carrusel [imagenes]="producto.url_imagen"></app-carrusel>
+
+    <div class="contenedor">
+        <div class="grid grid-nogutter mt-3 px-4">
+            
+            <div class="col-10">
+
+                <div class="grid grid-nogutter">
+                    <div class="col-12">
+                        <app-input-precio-normal [producto]="producto"></app-input-precio-normal>
+                        <app-input-precio-oferta [producto]="producto"></app-input-precio-oferta>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2 flex justify-content-center flex-wrap">
+                <div class="fav-icon flex align-items-center justify-content-center">
+                    <button (click)="toggleFavorite(favorito)">
+                        
+                        <i *ngIf="favorito" class="pi pi-heart"></i>
+                        <i *ngIf="!favorito" class="pi pi-heart-fill"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-12 ">
+                
+                <div class="titulo">{{producto.nombre}}</div>
+            </div>
+
+            <div class="col-12">
+                
+                <p>{{producto.descripcion}}</p>
+            </div>
+
+            <div class="col-10 flex flex-wrap my-4 pr-2">
+                <button 
+                    pButton 
+                    pRipple 
+                    icon="pi pi-plus" 
+                    class="bg-black-alpha-90 col-12 w-full px-0" 
+                    [style]="{'width':'100%'}" 
+                ></button>
+            </div>
+            
+            <div class="col-2 flex align-items-center justify-content-center">
+                <button 
+                    (click)="toggleFavorite(favorito)"
+                    pButton 
+                    pRipple 
+                    icon="pi pi-percentage" 
+                    class="bg-black-alpha-90 col-12 w-full px-0"
+                >
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-nogutter mt-3 px-2">
+    <div class="col-12 titulo">
+        Más productos
+    </div>
+</div>
+
+<app-carta-grid
+    (idChanged)="onCardChanged($event)"
+    [productosPares]="productosPares" 
+    [productosImpares]="productosImpares"
+></app-carta-grid>

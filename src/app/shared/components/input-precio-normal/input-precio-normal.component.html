@@ -1,0 +1,8 @@
+<div 
+    *ngIf="!validarPrecio(producto)"
+    class="contenedor"
+>
+    <div>
+        <span>COP </span>{{valorEntero(producto.precio) | numberFormat}}<span>.{{valorDecimal(producto.precio)}}</span>
+    </div>
+</div>

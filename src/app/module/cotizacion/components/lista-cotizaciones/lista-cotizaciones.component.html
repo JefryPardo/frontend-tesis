@@ -1,0 +1,16 @@
+<div class="grid grid-nogutter mt-4">
+    <div class="col-10 col-offset-1">
+   
+        <div class="col-12 p-0 mt-3">
+        
+            <app-orderlist-cotizaciones  
+                titulo="Cotizaciones"
+                [cotizaciones]="cotizaciones"
+            ></app-orderlist-cotizaciones>
+            
+            <br>
+            
+            <app-create-cotizacion (newSave)="nuevoSave($event)"></app-create-cotizacion> 
+        </div>
+    </div>
+</div>

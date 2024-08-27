@@ -1,0 +1,11 @@
+<app-banner></app-banner>
+<div class="spacer"></div>
+<app-search (searchChanged)="onSearchChanged($event)" id="search"></app-search>
+<app-carta-grid
+    [banner]="estadoBanner"
+    [productosPares]="filteredProductosPares" 
+    [productosImpares]="filteredProductosImpares"
+></app-carta-grid>
+<hr>
+<hr>
+<hr>

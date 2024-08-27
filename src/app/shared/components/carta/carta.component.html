@@ -1,0 +1,7 @@
+<div class="card">
+    <img [src]="producto.url_imagen"/>
+    <app-input-precio-normal [producto]="producto"></app-input-precio-normal>
+    <app-input-precio-oferta [producto]="producto"></app-input-precio-oferta>
+    <h6>unidades: {{evaluarUnidades(producto.unidades)}}</h6>
+    <p class="truncate-text">{{producto.nombre}}</p>
+</div>

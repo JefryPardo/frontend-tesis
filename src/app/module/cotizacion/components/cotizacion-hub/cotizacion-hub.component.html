@@ -1,0 +1,136 @@
+<section *ngIf="!pdf_show">
+    <div class="grid m-2">
+
+        <div class="col-8 py-3">
+            <P class="mb-0 font-bold">{{ getnombreCotizacion() }}</P>
+        </div>
+        <div class="col-4 py-3">
+            <div class="grid grid-nogutter">
+                <div class="col">
+                    <button 
+                        pButton 
+                        pRipple 
+                        icon="pi pi-file-edit" 
+                        class="bg-black-alpha-90"
+                    ></button>
+                </div>
+                <div class="col">
+                    <button 
+                        pButton 
+                        pRipple 
+                        icon="pi pi-trash" 
+                        class="bg-black-alpha-90"
+                    ></button>
+                </div>
+            </div>
+        </div>
+    </div>
+            
+    <div class="col-12 m-0 p-0">
+        
+        <div class="spacer"></div>
+        <app-search (searchChanged)="filtro($event)" id="search"></app-search>
+    </div>
+       
+    <!-- listado productos cotizados -->
+    <p-scrollPanel *ngIf="show_listado_productos_cotizados" [style]="{ width: '100%', height: '400px' }">
+    
+        <app-grid-producto 
+            (productoEmit)="onCardCotizado($event)"
+            [productosPares]="filteredProductosPares"
+            [productosImpares]="filteredProductosImpares"
+        ></app-grid-producto>
+    
+    </p-scrollPanel>
+    
+    <div class="grid grid-nogutter mt-4 mb-8">
+        <div class="col-6 px-1">
+            <button 
+                pButton 
+                pRipple 
+                label="Agregar producto"
+                (click)="consultarProductosCatalogo()"
+                class="bg-black-alpha-90 col-12 w-full px-0" 
+                [style]="{'width':'100%'}" 
+            ></button>
+        </div>
+        
+        <div class="col-6 px-1">
+            <button 
+                pButton 
+                pRipple 
+                (click)="generarPdf()"
+                label="Generar cotización"
+                class="bg-black-alpha-90 col-12 w-full px-0" 
+                [style]="{'width':'100%'}" 
+            ></button>
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <br>
+    
+    <p-dialog 
+        header="{{ getnombreCotizacion() }}" 
+        [(visible)]="visible_listado_productos_catalogo" 
+        [draggable]="false" 
+        [resizable]="false"
+        [modal]="true"
+        [style]="{width: '90%'}"
+        class="altura"
+    >
+    
+        <p-tabView class="contenido">
+            <p-tabPanel header="Productos">
+    
+                <section *ngIf="!select">
+                    <app-search id="search"></app-search>
+        
+                    <app-agregar-producto 
+                        [productos]="listado_productos_catalogo"
+                        (productoChanged)="onProductoChanged($event)"
+                    ></app-agregar-producto>
+                </section>
+    
+                <section *ngIf="select">
+                    <app-producto-cotizacion
+                        [producto]="resumen_producto_select"
+                        (dateChangedAdd)="onCrud($event)"
+                    ></app-producto-cotizacion>
+                </section>
+                
+            </p-tabPanel>
+        </p-tabView>
+    </p-dialog>
+    
+    <p-dialog 
+        header="Información"
+        [(visible)]="visible_producto"
+        [draggable]="false" 
+        [resizable]="false"
+        [modal]="true" 
+        [style]="{width: '90%'}"
+        class="altura"
+    >
+        <div class="grid grid-nogutter">
+    
+            <app-producto-cotizacion
+                *ngIf="visible_producto"
+                [producto]="resumen_producto_select"
+                [delete]="true"
+                (dateChangedCrud)="onCrud($event)"
+            ></app-producto-cotizacion>
+            
+        </div>
+    </p-dialog>
+</section>
+
+<section *ngIf="pdf_show">
+
+    <app-pdf
+        [resumen]="resumen"
+    >
+    </app-pdf>
+    
+</section>

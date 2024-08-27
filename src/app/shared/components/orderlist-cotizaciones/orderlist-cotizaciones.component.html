@@ -1,0 +1,40 @@
+
+<div class="grid grid-nogutter">
+    <div class="col-12">
+        <P class="my-3 font-bold">{{titulo}}</P>
+    </div>
+</div>
+
+<div *ngIf="cotizaciones.length === 0; else cotizacionesList">
+    <p class="opaco">No hay cotizaciones disponibles.</p>
+</div>
+
+<ng-template #cotizacionesList>
+    <p-orderList
+        [value]="cotizaciones" 
+        [listStyle]="{ 'max-height': '20rem' }" 
+        filterBy="nombre" 
+        filterPlaceholder="Filtrar por nombre"
+    >
+        <ng-template let-cotizacion pTemplate="item">
+            <div class="flex flex-wrap p-2 align-items-center gap-3" (click)="verCotizacion(cotizacion)">
+                <div class="flex-1 flex flex-column gap-2">
+
+                    <div class="grid">
+                        <div class="col-10">
+
+                            <span class="font-bold">{{ cotizacion.nombre }}</span>
+                            <div class="flex align-items-center gap-2">
+                                <span>{{ cotizacion.fecha_creacion }}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-2 flex align-items-center justify-content-center">
+                            <i class="pi pi-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-orderList>
+</ng-template>

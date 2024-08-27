@@ -1,0 +1,15 @@
+.fixed-bottom {
+    position: fixed;
+    shape-margin: 10%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff; /* Ajusta el color de fondo según tus preferencias */
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+    // padding: 10px; /* Añade un espacio entre el contenido y el borde inferior */
+}
+
+.ocultar {
+
+    display: none;
+}
