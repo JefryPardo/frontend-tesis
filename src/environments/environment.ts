@@ -1,6 +1,6 @@
 // Local NG SERVE
 export const environment = {
-  api: 'http://localhost:8083/app',
+  api: 'https://cristaleriala40.com/api/app',
   nombreToken: 'token'
 };
 
