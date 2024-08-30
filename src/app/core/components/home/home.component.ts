@@ -52,18 +52,28 @@ export class HomeComponent {
     this.homeService.getProductos().subscribe(
       
       (res) => {
-        
+
         if (res.status == 200) {
           
           const body: ResponseModel = res.body;
-          const response : AllProductosModel = body.response;
+          const response : ProductoModel[] = body.response;
 
-          this.filteredProductosPares   = response.productos_pares;
-          this.filteredProductosImpares = response.productos_impares;
+          this.filteredProductosPares = [];
+          this.filteredProductosImpares = [];
+          this.productosPares = [];
+          this.productosImpares = [];
 
-          this.productosPares   = response.productos_pares;
-          this.productosImpares = response.productos_impares;
-        
+          response.forEach((producto, index) => {
+            if (index % 2 === 0) {
+              this.filteredProductosPares.push(producto);
+              this.productosPares.push(producto);
+            } else {
+              // Índices impares
+              this.filteredProductosImpares.push(producto);
+              this.productosImpares.push(producto);
+            }
+          });
+
           return;
 
         } else if (res.status == 500) {

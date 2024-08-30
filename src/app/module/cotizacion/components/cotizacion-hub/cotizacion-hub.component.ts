@@ -136,15 +136,18 @@ export class CotizacionHubComponent {
           
       (resp) => {
 
+        console.log(resp);
+        
         if(resp.status == 200){
-
-
+          
+          
           let response: ResponseModel = resp.body;
+          console.log(response);
 
           if(response.code === '#SP') {
 
-            const prod : AllProductosModel = response.response;
-            this.listado_productos_catalogo = prod.productos_impares.concat(prod.productos_pares);
+            const prod : ProductoModel[] = response.response;
+            this.listado_productos_catalogo = prod;
             this.select = false;
           }
         }
